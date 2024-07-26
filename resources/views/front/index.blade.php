@@ -7,7 +7,7 @@
                 <div class="row g-0 gx-5 align-items-end">
                     <div class="col-lg-6">
                         <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-                            <h1 class="mb-3">Property Listing</h1>
+                            <h1 class="mb-3">LAYANAN</h1>
                             <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit diam justo sed rebum.</p>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                     <div id="tab-1" class="tab-pane fade show p-0 active">
                         <div class="row g-4">
                             @foreach($products as $product)
-                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="property-item rounded overflow-hidden">
                                     <div class="position-relative overflow-hidden">
                                         @if(isset($product['images'][0]['image']) && !empty($product['images'][0]['image']))
@@ -55,9 +55,9 @@
                             </div>
                             @endforeach
 
-                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
+                            <!-- <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
                                 <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div id="tab-2" class="tab-pane fade show p-0">

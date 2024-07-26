@@ -20,16 +20,9 @@
             </div>
         </div>
         <!-- Header End -->
+        @include('front.partials.search')
         <div class="container-xxl py-5">
             <div class="container">
-                <div class="row g-0 gx-5 align-items-center">
-                    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;"><h1 class="mb-3"></h1></div>
-                    <div class="col-lg-12">
-                        <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-                            <p class="text-center">{{$page_description ?? ''}} </p>
-                        </div>
-                    </div>
-                </div>
                         <div class="row g-0 text-center">
                         <div class="col-lg-12 wow fadeIn" data-wow-delay="0.5s">
                             @if(isset($strukturorganisasi))

@@ -8,20 +8,18 @@
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>{{ $profil->telepon ?? ''}}</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i>{{ $profil->email ?? ''}}</p>
                         <div class="d-flex pt-2">
-                                @if (isset($profil->socialmedia))
+                            @if (isset($profil->socialmedia))
                                 @foreach($profil['socialmedia'] as $sosmed)
                                 <a class="btn btn-outline-light btn-social" href="{{ $sosmed['socialmedia_name'] ?? ''}}"><i class="fab {{ $sosmed['socialmedia_icon'] ?? ''}}"></i></a>
                                 @endforeach
-                                @endif
+                            @endif
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Quick Links</h5>
-                        <a class="btn btn-link text-white-50" href="">About Us</a>
-                        <a class="btn btn-link text-white-50" href="">Contact Us</a>
-                        <a class="btn btn-link text-white-50" href="">Our Services</a>
-                        <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
-                        <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+                        @foreach($QuickLinks as $links)
+                        <a class="btn btn-link text-white-50" href="{{ $links['url']}}">{{ $links['title']}}</a>
+                        @endforeach
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Photo Gallery</h5>
@@ -50,7 +48,7 @@
                             &copy; <a class="border-bottom" href="#">BPB UNM</a>, All Right Reserved.
 
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                            <!-- Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> -->
                         </div>
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">

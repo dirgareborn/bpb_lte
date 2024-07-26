@@ -211,24 +211,31 @@
 							<span class="review-no">41 reviews</span>
 						</div>
 						<p class="product-description">{{ $productDetails['product_description'] }}</p>
-						<h4 class="price">current price: <span>@currency($productDetails['product_price'])</span></h4>
+            
+            
+            <h4 class="price">Harga: <span> @currency($productDetails['final_price'])</span></h4>
+              @if($productDetails['discount_type']!="") <br>
+              @currency($productDetails['product_discount']) Potongan 
+              <del>@currency($productDetails['product_price'])</del>
+              @endif
 						<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
 						<h5 class="sizes">Fasilitas : {!! $productDetails['product_facility'] !!}</h5>
-                        <form action="https://api.whatsapp.com/send?phone=6285343704359?text={{$productDetails['product_name']}}" method="POST">
-                        <!-- <form id="addToCart" name="addToCart" action="javascript:;"> -->
+                        <!-- <form action="https://api.whatsapp.com/send?phone=6285343704359?text={{$productDetails['product_name']}}" method="POST"> -->
+                        <form id="addToCart" name="addToCart" action="javascript:;">
                         <!-- @csrf -->
                         <input type="hidden" name="product_id" value="{{$productDetails['id']}}">
                     <div class="row g-2">
                         <div class="col-md-10">
                             <div class="row g-2">
                                 <div class="col-md-4">
-                                    <input type="text" id="date_booking" name="date_booking" class="date form-control border-0 py-3" placeholder="Tanggal Penyewaan">
+                                    <input type="text" id="booked" name="booked" class="date form-control border-0 py-3" placeholder="Tanggal Penyewaan">
                                 </div>
                                 <div class="col-md-4">
-                                  <select class="form-select border-0 py-3">
-                                    <option selected>Jenis Penyewa</option>
-                                    <option value="1">Civitas / Mahasiswa</option>
-                                    <option value="2">Umum</option>
+                                  <select name="customer_type" class="form-select border-0 py-3">
+                                    <option selected value="umum">Jenis Penyewa</option>
+                                    <option value="umum">Umum</option>
+                                    <option value="civitas">Civitas</option>
+                                    <option value="mahasiswa">Mahasiswa</option>
                                   </select>
                                 </div>
                                 <div class="col-md-4">
@@ -239,12 +246,12 @@
                     </div>
                     <br>
                     <div class="action">
-                        <button class="btn btn-primary" type="submit">Add to Cart</button>
+                        <button class="btn btn-primary" type="submit">Masukkan Keranjang</button>
                         <button class="btn btn-dark" type="button"><span class="fa fa-heart"></span></button>
                     </div>
                 </form>
-                  <br>
-                  <br>
+                 
+
                 <div class="print-error-msg"></div>
 					</div>
 				</div>

@@ -1,4 +1,4 @@
-@extends('layouts.web')
+@extends('front.layouts.app')
 @section('content')
  <!-- Header Start -->
  <div class="container-fluid header bg-white p-0">
@@ -14,7 +14,7 @@
                     </nav>
                 </div>
                 <div class="col-md-6 animated fadeIn">
-                    <img class="img-fluid" src="{{ asset('web/img/header.jpg') }}" alt="">
+                    <img class="img-fluid" src="{{ asset('front/img/header.jpg') }}" alt="">
                 </div>
             </div>
         </div>

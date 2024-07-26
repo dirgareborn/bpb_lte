@@ -35,18 +35,25 @@
                             </div>
                         </div>
                         <!-- <a href="Profil" class="nav-item nav-link {{ request()->is('/informasi') ? 'active' : '' }}">Informasi</a> -->
-                        <a href="{{ url('kontak') }}" class="nav-item nav-link {{ request()->is('kontak') ? 'active' : '' }}">Kontak</a>
-                        <!-- <a href="{{ url('login') }}" class="nav-item nav-link {{ request()->is('login') ? 'active' : '' }}">Login</a> -->
-                    </div>
+                        <a href="{{ url('kontak-kami') }}" class="nav-item nav-link {{ request()->is('kontak-kami') ? 'active' : '' }}">Kontak</a>
+                        <a href="{{ url('login') }}" class="nav-item nav-link {{ request()->is('login') ? 'active' : '' }}">Login</a>
+                        <a href="{{ url('cart') }}" class="nav-item nav-link {{ request()->is('cart') ? 'active' : '' }}">
+                        <i class="fas fa-shopping-cart "></i>
+                            <span
+                            class="badge bg-danger" style="width: 20px; height: 20px; font-size: 15px; border-radius: 10px;
+                            transform: perspective(0px) translate(-12px) rotate(0deg) scale(0.50);transform-origin: top;padding-right: 0;padding-top: 0.2px;padding-left: 0.2px;text-align: center;border-width: 30px;">2</span>
+                       
+                        </a>
                         @if (Route::has('login'))
-                            @auth
-                                <a href="{{ url('/dashboard') }}" class="btn btn-primary px-3 d-none d-lg-flex">Dashboard</a>
-                            @else
-                                @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="btn btn-primary px-3 d-none d-lg-flex">Register</a>
-                                @endif
-                            @endauth
+                        @auth
+                        <a href="{{ url('/dashboard') }}" class="btn btn-primary px-3 d-none d-lg-flex">Dashboard</a>
+                        @else
+                        @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="btn btn-primary px-3 d-none d-lg-flex">Register</a>
                         @endif
+                        @endauth
+                        @endif
+                    </div>
                 </div>
             </nav>
         </div>

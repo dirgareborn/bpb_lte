@@ -34,8 +34,11 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('product/{id}','ProductController@detail');
     // Add To Cart
     Route::post('/add-to-cart','ProductController@addToCart');
+    Route::get('/cart','ProductController@Cart');
+    Route::get('/cart/delete-cart-item/{id?}','ProductController@deleteItem');
 
     Route::get('/visi-misi', [IndexController::class,'visiMisi'])->name('visi-misi');
+    Route::get('/kontak-kami', [IndexController::class,'kontak'])->name('kontak-kami');
     Route::get('/struktur-organisasi', [IndexController::class,'strukturOrganisasi'])->name('struktur-organisasi');
 
 });
