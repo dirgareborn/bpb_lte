@@ -37,7 +37,7 @@
                                         @else
                                         <a href=""><img class="img-fluid" src="img/property-1.jpg" alt=""></a>
                                         @endif
-                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For Sell</div>
+                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3"></div>
                                         <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ $product['categories']['category_name'] }}</div>
                                         
                                     </div>
@@ -46,11 +46,11 @@
                                         <a class="d-block h5 mb-2" href="{{url('product/'. $product['id'])}}">{{ $product['product_name']}}</a>
                                         <p><i class="fa fa-map-marker-alt text-primary me-2"></i> <a target="_blank" href="{{ $product['locations']['maps']}}">{{ $product['locations']['name'] }}</a></p>
                                     </div>
-                                    <div class="d-flex border-top">
+                                    <!-- <div class="d-flex border-top">
                                         <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>
                                         <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
                                         <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             @endforeach

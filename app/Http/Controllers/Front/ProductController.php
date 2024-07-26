@@ -16,6 +16,7 @@ class ProductController extends Controller
 {
     public function listing(){
         $url = Route::getFacadeRoot()->current()->uri;
+        $page_title = 'KATEGORI';
         $categoryCount = Category::where(['url'=>$url,'status'=>1])->count();
         // dd($categoryCount);
         if($categoryCount>0){
@@ -25,7 +26,8 @@ class ProductController extends Controller
             // dd($categoryDetails);
             $categoryProducts = Product::with('images')->where('category_id',$categoryDetails['catIds'])
             ->where('status',1)->orderBy('id','Desc')->simplePaginate();
-            return view('front.products.listing')->with(compact('categoryDetails','categoryProducts'));
+
+            return view('front.products.listing')->with(compact('categoryDetails','categoryProducts','page_title'));
         }else{
             abort(404);
         }
@@ -88,7 +90,7 @@ class ProductController extends Controller
             $item->product_id = $data['product_id'];
             $item->start_date = $date_booking;
             $item->end_date = $date_booking;
-            // $item->customer_type = $data['customer_type'];
+            $item->customer_type = $data['customer_type'];
             $item->qty = $data['qty'];
             $item->save();
             $message = "Produk berhasil ditambahkan";
@@ -98,14 +100,14 @@ class ProductController extends Controller
 
     public function cart(){
 
-        $getCartItems = Cart::getCartItems();
+        // $getCartItems = Cart::getCartItems();
+        $getCartItems = getCartItems();
         // dd($getCartItems);
         return view('front.products.cart')->with(compact('getCartItems'));
     }
 
     public function deleteItem($id)
     {   
-        // dd($id);
         if(Auth::check()){
             $user_id = Auth::user()->id;
         }else{

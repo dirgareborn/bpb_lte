@@ -215,7 +215,7 @@
             
             <h4 class="price">Harga: <span> @currency($productDetails['final_price'])</span></h4>
               @if($productDetails['discount_type']!="") <br>
-              @currency($productDetails['product_discount']) Potongan 
+             Diskon {{ $productDetails['product_discount']}} % 
               <del>@currency($productDetails['product_price'])</del>
               @endif
 						<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
@@ -227,10 +227,10 @@
                     <div class="row g-2">
                         <div class="col-md-10">
                             <div class="row g-2">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <input type="text" id="booked" name="booked" class="date form-control border-0 py-3" placeholder="Tanggal Penyewaan">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                   <select name="customer_type" class="form-select border-0 py-3">
                                     <option selected value="umum">Jenis Penyewa</option>
                                     <option value="umum">Umum</option>
@@ -238,8 +238,8 @@
                                     <option value="mahasiswa">Mahasiswa</option>
                                   </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <input type="text" name="qty" id="qty" class="form-control border-0 py-3" placeholder="QTY">
+                                <div class="col-md-0">
+                                    <input type="hidden" name="qty" id="qty" class="form-control border-0 py-3" value="1" placeholder="QTY">
                                 </div>
                             </div>
                         </div>

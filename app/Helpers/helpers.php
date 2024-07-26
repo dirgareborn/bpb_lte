@@ -1,5 +1,5 @@
 <?php
-namespace helpers;
+namespace app\Helpers\helpers;
 
 use Illuminate\Support\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
@@ -10,6 +10,7 @@ use Illuminate\Http\File;
  * @param string $content
  * @return string
  */
+
 if (! function_exists('get_tag_image')) {
     function get_tag_image(string $content)
     {

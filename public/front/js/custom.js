@@ -54,3 +54,25 @@ $(document).ready(function(){
         });
     });
 });
+//
+// Empty Cart
+$(document).on('click','.deleteCartItem',function(){
+    var cartid = $(this).data('cartid');
+    var result = confirm("Apakah anda ingin menghapus dari Keranjang?");
+    if(result){
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            type:'post',
+            data:{cartid:cartid},
+            url:'/delete-cart-item',
+            success:function(resp){
+                $("#totalCartItems").html(resp.totalCartItems);
+                $("#appendCartItems").html(resp.view);
+                $("#appendMiniCartItems").html(resp.minicartview);
+                
+            },error:function(){
+                alert("Error");
+            }
+        });
+    }
+})

@@ -49,10 +49,11 @@
                             </div> -->
                             <div class="col-md-4 col-lg-4 col-xl-3 offset-lg-1">
 
-                            <hp class="mb-0 price">Harga: <span> @currency($getAttributePrice['final_price'])</span></p>
-                                @if($getAttributePrice['discount']>0) 
-                                Diskon {{ $getAttributePrice['discount_percent'] }} % 
-                                <del>@currency($getAttributePrice['product_price'])</del>
+                            <hp class="mb-0 price">Harga: <span> @currency($getAttributePrice['final_price'] * $item['qty'])</span></p>
+                                
+                            @if($getAttributePrice['discount']>0) 
+                                Diskon {{ $getAttributePrice['discount_percent'] }} % Dari
+                                <del>@currency($getAttributePrice['product_price']* $item['qty'])</del>
                                 @endif
 
                             </div>
