@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\Front\CategoryController;
 use App\Http\Controllers\Front\ProductController;
+use App\Http\Controllers\Front\UserController;
 use App\Models\Category;
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,10 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 
     //Product Detail
     Route::get('product/{id}','ProductController@detail');
+
+    // Product Search
+    Route::get('search-products','ProductController@listing');
+    
     // Add To Cart
     Route::post('/add-to-cart','ProductController@addToCart');
     Route::get('/cart','ProductController@Cart');
@@ -41,7 +46,11 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('/kontak-kami', [IndexController::class,'kontak'])->name('kontak-kami');
     Route::get('/struktur-organisasi', [IndexController::class,'strukturOrganisasi'])->name('struktur-organisasi');
 
+    
 });
+Auth::routes();
+// User Route
+Route::get('/akun', [UserController::class, 'index'])->name('akun');
 
 // Admin Route
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
@@ -92,3 +101,4 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-edit-banner/{id?}','BannerController@edit');
     });
 });
+

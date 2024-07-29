@@ -28,6 +28,9 @@ class ProductController extends Controller
             ->where('status',1)->orderBy('id','Desc')->simplePaginate();
 
             return view('front.products.listing')->with(compact('categoryDetails','categoryProducts','page_title'));
+        }else if(isset($_GET['query'])&&!empty($_GET['query'])){
+            $search = $_GET['query'];
+            dd($search);
         }else{
             abort(404);
         }
@@ -69,7 +72,8 @@ class ProductController extends Controller
 
             // Check Product if already 
             if(Auth::check()){
-                //user is logged in
+                $user_id = Auth::user()->id;
+                $countProducts = Cart::where(['product_id'=>$data['product_id'],'start_date'=> $date_booking])->count();
             }else{
                 // user is not logged in
                 $user_id = 0;

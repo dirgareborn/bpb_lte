@@ -16,12 +16,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
     protected $profil;
+    protected $MenuCategories;
+    
     public function __construct()
     
     {
         $this->profil     = ProfilWebsite::first();
         // dd($this->profil);
-        $MenuCategories = Category::getCategories();
+        $this->MenuCategories = Category::getCategories();
         $links = ['tentang-kami','kontak-kami','kebijakan-privasi','syarat-dan-ketentuan'];
         $QuickLinks = CmsPage::select('url','title')->whereIn('url',$links)->get();
         $category = Category::where('status', 1)->orderBy('category_name','ASC')->get();
@@ -31,11 +33,11 @@ class Controller extends BaseController
         
         View::share([
             'profil'                 => $this->profil,
-            'MenuCategories'             => $MenuCategories,
+            'MenuCategories'         => $this->MenuCategories,
             'categories'             => $category,
             'locations'              => $locations,
-            'galery'              => $galery,
-            'QuickLinks'              => $QuickLinks,
+            'galery'                 => $galery,
+            'QuickLinks'             => $QuickLinks,
         ]);
     }
 }

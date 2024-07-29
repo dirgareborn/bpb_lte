@@ -40,26 +40,34 @@ $totalCartItems = totalCartItems();
                         @endforeach
                     </ul>
                 </div>
-                <!-- <a href="Profil" class="nav-item nav-link {{ request()->is('/informasi') ? 'active' : '' }}">Informasi</a> -->
                 <a href="{{ url('kontak-kami') }}" class="nav-item nav-link {{ request()->is('kontak-kami') ? 'active' : '' }}">Kontak</a>
-                <a href="{{ url('login') }}" class="nav-item nav-link {{ request()->is('login') ? 'active' : '' }}">Login</a>
-                <a href="{{ url('cart') }}" class="nav-item nav-link {{ request()->is('cart') ? 'active' : '' }}"></a>
+                @guest
+                    @if (Route::has('login'))
+                    <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
+                    @endif
+                    @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="nav-item nav-link">Daftar</a>
+                    @endif
+                    @else
+                    <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
 
-                <!-- <i class="fas fa-shopping-cart "></i>
-                <span class="badge bg-danger" style="margin-top:-55px; width: 30px; height: 30px; font-size: 15px; border-radius: 15px;
-                            transform: perspective(0px) translate(-12px) rotate(0deg) scale(0.50);transform-origin: top;;text-align: center;border-width: 30px;">
-                    {{ $totalCartItems }}
-                </span> -->
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                @endguest
                 @include('front.products.header_cart')
-                @if (Route::has('login'))
-                @auth
-                <a href="{{ url('/dashboard') }}" class="btn btn-primary px-3 d-none d-lg-flex">Dashboard</a>
-                @else
-                @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="btn btn-primary px-3 d-none d-lg-flex">Register</a>
-                @endif
-                @endauth
-                @endif
             </div>
         </div>
     </nav>
