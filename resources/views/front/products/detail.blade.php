@@ -189,12 +189,17 @@
             		
 						<div class="preview-pic tab-content" id="myTabContent">
             @foreach($productDetails['images'] as $key => $image) 
-						  <div @if($key === 0) class="tab-pane fade show active" @else class="tab-pane" @endif id="pic-{{ $key }}"><img src="{{ asset('front/images/products/'. $productDetails['product_image']) }}" /></div>
+						  <div @if($key === 0) class="tab-pane fade show active" @else class="tab-pane" @endif id="pic-{{ $key }}">
+						  <img @if($key === 0) src="{{ asset('front/images/products/'. $productDetails['product_image']) }}" @else src="{{ asset('front/images/products/galery/'. $image['image']) }}" @endif/></div>
               @endforeach
 						</div>
 						<ul class="preview-thumbnail nav nav-tabs" role="tablist">
             @foreach($productDetails['images'] as $key => $image)
-						  <li @if($key === 0) class="active" @else class="" @endif><a data-bs-target="#pic-{{$key}}" data-bs-toggle="tab"><img src="{{ asset('front/images/products/galery/'. $image['image']) }}" /></a></li>
+						  <li @if($key === 0) class="active" @else class="" @endif>
+						  <a data-bs-target="#pic-{{$key}}" data-bs-toggle="tab">
+						  <img @if($key === 0) src="{{ asset('front/images/products/'. $productDetails['product_image']) }}" @else src="{{ asset('front/images/products/galery/'. $image['image']) }}" @endif/>
+						
+						  </a></li>
               @endforeach
 						</ul>
 					</div>
@@ -215,13 +220,13 @@
             
             <h4 class="price">Harga: <span> @currency($productDetails['final_price'])</span></h4>
               @if($productDetails['discount_type']!="") <br>
-             Diskon {{ $productDetails['product_discount']}} % 
+				Diskon {{ $productDetails['product_discount']}} % 
               <del>@currency($productDetails['product_price'])</del>
               @endif
 						<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
 						<h5 class="sizes">Fasilitas : {!! $productDetails['product_facility'] !!}</h5>
                         <!-- <form action="https://api.whatsapp.com/send?phone=6285343704359?text={{$productDetails['product_name']}}" method="POST"> -->
-                        <form id="addToCart" name="addToCart" action="javascript:;">
+                        <form id="addToCart" name="addToCart" action="javascript:;" method="POST">
                         <!-- @csrf -->
                         <input type="hidden" name="product_id" value="{{$productDetails['id']}}">
                     <div class="row g-2">

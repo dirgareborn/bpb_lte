@@ -121,7 +121,55 @@ $(document).ready(function(){
             }
         })
     });
-
+	
+	//update akun bank banner
+    $(document).on("click",".updateAccountBankStatus", function(){
+        var status = $(this).children("i").attr("status");
+        var bank_id = $(this).attr("bank_id");
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            type:'post',
+            url:'/admin/update-account-bank-status',
+            data:{status:status,bank_id:bank_id},
+            success:function(resp){
+                if(resp['status']==0){
+                    $("#bank-"+bank_id).html("<i class='fas fa-toggle-off' style='color:grey' status='Inactive'></i>" )
+                }else if(resp['status']==1){
+                    $("#bank-"+bank_id).html("<i class='fas fa-toggle-on' style='color:#007bff' status='Active'></i>" )
+                }
+            },error:function(){
+                alert("Error");
+            }
+        })
+    });
+	
+	//update status coupon
+    $(document).on("click",".updateCouponStatus", function(){
+        var status = $(this).children("i").attr("status");
+        var coupon_id = $(this).attr("coupon_id");
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            type:'post',
+            url:'/admin/update-coupon-status',
+            data:{status:status,coupon_id:coupon_id},
+            success:function(resp){
+                if(resp['status']==0){
+                    $("#coupon-"+coupon_id).html("<i class='fas fa-toggle-off' style='color:grey' status='Inactive'></i>" )
+                }else if(resp['status']==1){
+                    $("#coupon-"+coupon_id).html("<i class='fas fa-toggle-on' style='color:#007bff' status='Active'></i>" )
+                }
+            },error:function(){
+                alert("Error");
+            }
+        })
+    });
+	// Coupon Option Show/Hide
+	$("#ManualCoupon").click(function(){
+		$("#couponField").show();
+	});
+	$("#AutomaticCoupon").click(function(){
+		$("#couponField").hide();
+	});
     //Initialize Select2 Elements
     $('.select2').select2()
 
@@ -132,13 +180,15 @@ $(document).ready(function(){
 
     $(function () {
         // Summernote
-        $('#summernote').summernote()
+        $('#summernote').summernote();
+		$('#product_description').summernote();
+		
     
         // CodeMirror
         CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-          mode: "htmlmixed",
-          theme: "monokai"
+        mode: "htmlmixed",
+        theme: "monokai"
         });
-      })
+    });
     
 });

@@ -4,7 +4,7 @@
                 <div class="row g-5">
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Get In Touch</h5>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>{{ strip_tags($profil->alamat) }}</p>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>{{ strip_tags($profil->alamat ?? '') }}</p>
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>{{ $profil->telepon ?? ''}}</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i>{{ $profil->email ?? ''}}</p>
                         <div class="d-flex pt-2">
@@ -16,13 +16,13 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Quick Links</h5>
+                        <h5 class="text-white mb-4">Link</h5>
                         @foreach($QuickLinks as $links)
                         <a class="btn btn-link text-white-50" href="{{ $links['url']}}">{{ $links['title']}}</a>
                         @endforeach
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Photo Gallery</h5>
+                        <h5 class="text-white mb-4">Galeri</h5>
                         <div class="row g-2 pt-2">
                             @foreach($galery as $g)
                             <div class="col-4">
@@ -33,10 +33,13 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Newsletter</h5>
-                        <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                        <p>Ikuti informasi terbaru kami.</p>
                         <div class="position-relative mx-auto" style="max-width: 400px;">
-                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+						<form method="post" action="{{url('newsletter/store')}}">
+						@csrf
+                            <input name="email" class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">Ikuti</button>
+						</form>
                         </div>
                     </div>
                 </div>

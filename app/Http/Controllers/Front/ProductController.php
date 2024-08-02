@@ -9,7 +9,12 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\User;
+use App\Models\Coupon;
+use App\Models\OrderProduct;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 class ProductController extends Controller
@@ -35,16 +40,16 @@ class ProductController extends Controller
             abort(404);
         }
     }
-
     public function detail($id){
-
         $productDetails = Product::with(['images','attributes','categories'])->find($id)->toArray();
-        // dd($productDetails);
         return view('front.products.detail')->with(compact('productDetails'));
     }
-
     public function addToCart(Request $request){
         if($request->isMethod('post')){
+
+			Session::forget('couponAmount');
+			Session::forget('couponCode');
+
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
             //Cek Date Booked Status
@@ -101,15 +106,190 @@ class ProductController extends Controller
             return response()->json(['status'=>true,'message'=>$message]);
             }
     }
-
     public function cart(){
 
-        // $getCartItems = Cart::getCartItems();
-        $getCartItems = getCartItems();
-        // dd($getCartItems);
+		Session::forget('couponAmount');
+		Session::forget('grandTotal');
+		Session::forget('couponCode');
+		$getCartItems = getCartItems();
+		
+		if(empty(Session::get('session_id'))){
+                $session_id = Session::getId();
+                Session::put('session_id',$session_id);
+            }else{
+                $session_id = Session::get('session_id');
+        }
+		//dd($session_id);
+		if(Auth::check()){
+            $user_id = Auth::user()->id;
+        }else{
+            $user_id = 0;
+        }
+		$getCartCount = Cart::where('session_id',$session_id)->count();
+		//dd($getCartCount);
+		if($getCartCount>0){
+			Cart::where('session_id',$session_id)->update(['user_id'=>$user_id]);
+            $message = "Keranjang berhasil diperbaharui";
+            return view('front.products.cart')->with(compact('message','getCartItems'));
+        }else{
         return view('front.products.cart')->with(compact('getCartItems'));
+		}
     }
+	public function applyCoupon(Request $request){
+		if($request->ajax()){
+			
+            $data = $request->all();
+			$getCartItems = getCartItems();
+			$totalCartItems = totalCartItems();
+            $couponCount = Coupon::where('coupon_code', $data['code'])->count();
+			if($couponCount==0){
+				return response()->json([
+					'status'=>false,
+					'totalCartItems'=> $totalCartItems,
+					'message'=> 'Kupon tidak ada',
+					'view'=>(String)View::make('front.products.cart_items')->with(compact('getCartItems')),
+				]);
+			}else{
+				$couponDetails = Coupon::where('coupon_code', $data['code'])->first();
+				
+				if($couponDetails->status==0){
+					$error_message = "Kupon sudah tidak aktif";
+				}
+				$expired_date = $couponDetails->expired_date;
+				$current_date = date('Y-m-d');
+				if($expired_date<$current_date){
+					$error_message = "Kupon sudah Kadaluarsa";
+				}
+				$prodArr = explode(",", $couponDetails->products);
+				$usersArr = explode(",", $couponDetails->users);
+				foreach($usersArr as $key => $user){
+					$getUserID = User::select('id')->where('email',$user)->first()->toArray();
+					$userID[] = $getUserID['id'];
+				}
+				$total_amount = 0;
+				foreach($getCartItems as $key => $item){
+					if(!in_array($item['product_id'],$prodArr)){
+						$error_message = "Kupon Tidak berlaku untuk produk yang dipilih";
+					}
+					if(count($usersArr)>0){
+						if(!in_array($item['user_id'],$userID)){
+							$error_message = "Kupon Ini Tidak berlaku untuk Anda, Silahkan coba menggunakan Kupon lain";
+						}
+					}
+					$getAttributePrice =  Product::getAttributePrice($item['product_id'],$item['customer_type']); 
+					$total_amount = $total_amount + ($getAttributePrice['final_price']*$item['qty']);
+					
+				}
+				
 
+				if(isset($error_message)){
+					return response()->json([
+					'status'=>false,
+					'totalCartItems'=> $totalCartItems,
+					'message'=> $error_message,
+					'view'=>(String)View::make('front.products.cart_items')->with(compact('getCartItems')),
+				]);
+				}else{
+					if($couponDetails->amount_type=="Fixed"){
+						$couponAmount = $couponDetails->amount;
+					}else{
+						$couponAmount = $total_amount * ($couponDetails->amount/100);
+					}
+					$grandTotal = $total_amount - $couponAmount;
+					Session::put('couponAmount',$couponAmount);
+					Session::put('grandTotal',$grandTotal);
+					Session::put('couponCode',$data['code']);
+					$message = "Kupo berhasil digunakan, anda mendapatkan potongan harga";
+					
+					return response()->json([
+						'status'=>true,
+						'totalCartItems'=> $totalCartItems,
+						'couponAmount'=> $couponAmount,
+						'grandTotal'=> $grandTotal,
+						'message'=> $message,
+						'view'=>(String)View::make('front.products.cart_items')->with(compact('getCartItems')),
+					]);
+				}
+				
+			}
+			
+			
+		}
+	}
+	public function checkouts(Request $request){
+		$getCartItems = getCartItems();
+		if(count($getCartItems)==0){
+			$message = "Keranjang Masih Kosong, Booking sebelum melakukan checkout!";
+			return redirect('cart')->with('error_message',$message);
+		}
+		if($request->isMethod('post')){
+            $data = $request->all();
+			
+			//check Payment Method
+			if(empty($data['payment_gateway'])){
+				return redirect()->back()->with('error_message','Silahkan Pilih Metode Pembayaran');
+			}
+			if(!isset($data['agree'])){
+				return redirect()->back()->with('error_message','Silahkan Setujui untuk melanjutkan!');
+			}
+			
+			//Payment Cash
+			if($data['payment_gateway']=="CASH"){
+				$payment_method = "CASH";
+				$order_status ="New";
+			}else{
+				$payment_method = "Prepaid";
+				$order_status ="Pending";
+			}
+			// Fetch Order Total Price 
+			
+			$total_price = 0;
+            foreach($getCartItems as $item){
+				$getAttributePrice = Product::getAttributePrice($item['product_id'],$item['customer_type']);
+				$total_price = $total_price + ($getAttributePrice['final_price'] * $item['qty']);	
+			}
+			
+			// Insert Order Details
+			$order = new Order;
+			$order->user_id = Auth::user()->id;
+			$order->name = $data['name'];
+			$order->address = $data['address'];
+			$order->payment_method = $payment_method;
+			$order->payment_gateway = $data['payment_gateway'];
+			$order->grand_total = $total_price;
+			$order->order_status = $order_status;
+			$order->save();
+			
+			$order_id = DB::getPdo()->lastInsertId(); 
+			foreach($getCartItems as $key => $item){
+				$getProductDetails = Product::getProductDetails($item['product_id']);
+				$getAttributeDetails = Product::getAttributeDetails($item['product_id'],$item['customer_type']);
+				$getAttributePrice = Product::getAttributePrice($item['product_id'],$item['customer_type']);
+				
+				$cartItem = new OrderProduct;
+				$cartItem->order_id = $order_id;
+				$cartItem->user_id = Auth::user()->id;
+				$cartItem->product_id = $item['product_id'];
+				$cartItem->product_name = $getProductDetails['product_name'];
+				$cartItem->product_price = $getAttributePrice['final_price'];
+				$cartItem->customer_type = $getAttributeDetails['customer_type'];
+				$cartItem->start_date = $item['start_date'];
+				$cartItem->end_date = $item['end_date'];
+				$cartItem->qty = $item['qty'];
+				$cartItem->save();
+				
+			}
+			Session::put('order_id',$order_id);
+			DB::commit();
+		}
+		
+		//dd($data);
+		return view('front.products.checkout')->with(['data'=>$data]);
+	}
+	public function checkout(){
+		$getCartItems = getCartItems();
+		return view('front.products.checkout')->with(['getCartItems'=>$getCartItems]);
+	}
     public function deleteItem($id)
     {   
         if(Auth::check()){
@@ -118,7 +298,7 @@ class ProductController extends Controller
             $user_id = 0;
         }
         $session_id = Session::get('session_id');
-        $resul =  Cart::where('id',$id)->where('session_id',$session_id)->where('user_id',$user_id)->delete();
+        $resul =  Cart::where('id',$id)->where('session_id',$session_id)->orWhere('user_id',$user_id)->delete();
 
         if($resul){
 
@@ -128,7 +308,5 @@ class ProductController extends Controller
 
         }
     }
-
-
 }
 

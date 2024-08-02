@@ -12,33 +12,18 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <div class="row">
-          <div class="col-md-12">
             @include('admin.partials.alert')
             <form name="productForm" enctype="multipart/form-data" id="productForm" @if(empty($product['id'])) action="{{ url('admin/add-edit-product')}}" @else action="{{ url('admin/add-edit-product/'.$product['id'])}}" @endif method="post">@csrf
               <input type="hidden" id="id" name="id" value="{{ $product['id'] ?? '' }}">
+        <div class="row">
+        <div class="col-md-4">
               <div class="form-group">
                 <label>Nama Produk</label>
                 <input type="text" id="product_name" name="product_name" placeholder="Ketikkan Nama Produk" class="form-control" value="{{ $product['product_name'] ?? '' }}">
               </div>
-              
-              <div class="form-group">
-                <label>Harga </label>
-                <input type="text" id="product_price" name="product_price" placeholder="Ketikkan Harga " class="form-control" value="{{ $product['product_price'] ?? '' }}">
-
-                <!-- <table id="myTable table-responsive" class="table order-list" width="100%">
-								<thead>
-									<tr>
-										<th width="80%">Harga</th>
-										<th> <input type="button" class="btn btn-xs btn-success" id="addrow" value="Tambah Baris" /></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr></tr>
-								</tbody>
-							</table> -->
-              </div>
-              <div class="form-group">
+			  </div>
+		<div class="col-md-4">
+			  <div class="form-group">
                 <label>Kategori Produk</label>
                 <select class="form-control select2bs4" id="category_id" name="category_id" style="width: 100%;">
                   <option value="0">---Pilih Kategori ---</option>
@@ -56,8 +41,10 @@
                       @endif
                     @endforeach
                 </select>
-              </div>
-              <div class="form-group">
+            </div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
                 <label>Lokasi</label>
                 <select class="form-control select2bs4" id="location_id" name="location_id" style="width: 100%;">
                   <option>---Pilih Lokasi ---</option>
@@ -65,8 +52,53 @@
                   <option @if(isset($product['location_id'])&&$product['location_id']==$loc['id']) selected="selected" @endif value="{{ $loc['id']}}">{{ $loc['name']}}</option>
                   @endforeach
                 </select>
-              </div>
-              <div class="form-group">
+            </div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Harga </label>
+				<input type="text" id="product_price" name="product_price" placeholder="Ketikkan Harga " class="form-control" value="{{ $product['product_price'] ?? '' }}">
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+                <label>Type Diskon</label>
+                <select class="form-control select2bs4" id="discount_type" name="discount_type" style="width: 100%;">
+                  <option>---Pilih Type Diskon ---</option>
+				  <option value=""> Tidak ada diskon </option>
+                  <option value="percent"> Persen (%) </option>
+				  <option value="nominal"> Nominal (Rp.) </option>
+                </select>
+            </div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Diskon</label>
+				<input type="text" id="product_discount" name="product_discount" placeholder="Ketikkan Besaran Diskon " class="form-control" value="{{ $product['product_discount'] ?? '' }}">
+			</div>
+		</div>
+		
+		<div class="col-md-12">
+         <div class=" form-group field_wrapper">
+			<div>
+			<table class="attribute-list">
+			<tr>
+				<td><input type="text"  class="form-control" placeholder="Nama Detail Harga Produk" name="price_detail[]" value=""/></td>
+				<td><select class="form-control" id="customer_type" name="customer_type[]">
+                  <option>---Pilih Type Pengguna ---</option>
+				  <option value="umum"> Umum </option>
+				  <option value="civitas"> Civitas </option>
+				  <option value="mahasiswa"> Mahasiswa </option>
+                </select></td>
+				<td><input class="form-control" type="text"  placeholder="Harga" name="price[]" value=""/></td>
+				<td><a href="javascript:void(0);" class="add_button btn btn-info" title="Add field">tambah baris</a></td>
+				</tr>
+				</table>
+			</div>
+		</div>
+		</div>
+		<div class="col-md-6">
+		 <div class="form-group">
                 <label>Cover Produk</label>
                 <input type="file" id="cover_image"  name="cover_image" placeholder="Input Foto" class="form-control" value="{{ $product['product_image'] ?? '' }}">
                 <br>
@@ -77,39 +109,53 @@
                 <input type="hidden" name="current_image" value="{{ $product['product_image'] ?? '' }}" class="form-control">
                 @endif
               </div>
+			</div>
+		<div class="col-md-6">
               <div class="form-group">
                 <label>Foto Slide</label>
                 <input type="file" id="slide_images" multiple="" name="slide_images[]" placeholder="Input Foto" class="form-control" value="{{ $product['slide_images'] ?? '' }}">
                 <br>
-               
                 @forelse($productSlide as $slide)
                 <a target="_blank" href="{{ url('front/images/products/galery/'.$slide['image']) }}">
                   <img style="max-width:150px;" src="{{ asset('front/images/products/galery/'. $slide['image'])}}" alt=""></a>
-                <a class="confirmDelete" href="javascript:void(0)" record="slide-image" recordid="{{ $slide['id'] }}" title="Hapus Foto Kategori"> <i class="fas fa-trash text-danger"></i> </a>
+                <a class="confirmDelete" href="javascript:void(0)" record="product-image-slide" recordid="{{ $slide['id'] }}" title="Hapus Foto Kategori"> <i class="fas fa-trash text-danger"></i> </a>
                 <input type="hidden" name="current_slide_image[]" value="{{ $slide['image'] ?? '' }}[]" class="form-control">
                 @empty
                 @endforelse
-              </div>
+            </div>
+		 </div>
+		
+        <div class="col-md-6">
               <div class="form-group">
                 <label>Fasilitas</label>
-                <textarea name="product_facility" id="summernote" rows="3" placeholder="Ketikkan Deskripsi Halaman" class="form-control" value="{{ $product['product_facility'] ?? '' }}">{{ $product['product_facility'] ?? '' }}</textarea>
+                <textarea name="product_facility" id="summernote" rows="3" placeholder="Ketikkan Fasilitas" class="form-control" value="{{ $product['product_facility'] ?? '' }}">{{ $product['product_facility'] ?? '' }}</textarea>
               </div>
+		</div>
+          <div class="col-md-6">
               <div class="form-group">
                 <label>Deskripsi</label>
                 <textarea name="product_description" id="product_description" rows="3" placeholder="Ketikkan Deskripsi Halaman" class="form-control" value="{{ $product['description'] ?? '' }}"> {{ $product['product_description'] ?? ''}} </textarea>
               </div>
+			  </div>
+          <div class="col-md-6">
               <div class="form-group">
                 <label>Judul Meta</label>
                 <input type="text" id="meta_title" name="meta_title" placeholder="Ketikkan Judul Halaman" class="form-control" value="{{ $product['meta_title']  ?? '' }}">
               </div>
+			  </div>
+          <div class="col-md-6">
               <div class="form-group">
                 <label>Deskripsi Meta</label>
                 <textarea name="meta_description" id="meta_description" rows="3" placeholder="Ketikkan Deskripsi Halaman" class="form-control" value="{{ $product['meta_description'] ?? '' }}">{{ $product['meta_description'] ?? '' }}</textarea>
               </div>
+			  </div>
+          <div class="col-md-6">
               <div class="form-group">
                 <label>Meta Pencarian</label>
                 <input type="text" id="meta_keywords" name="meta_keywords" placeholder="Ketikkan Kata Kunci Meta Pencarian" class="form-control" value="{{ $product['meta_keywords'] ?? '' }}">
               </div>
+			  </div>
+          <div class="col-md-12">
               @if(empty($category['id']))
               <button type="submit" class="btn btn-primary">Simpan</button>
               @else
@@ -117,6 +163,8 @@
               @endif
             </form>
           </div>
+		  </div>
+		  </div> 
           <!-- /.col -->
         </div>
         <!-- /.row -->
@@ -129,28 +177,41 @@
 <!-- /.content -->
 @endsection
 
-
-@push('scripts')
-
 @push('scripts')
 <script>
 	$(document).ready(function() {
-		var counter = 0;
-		$("#addrow").on("click", function() {
-			var newRow = $("<tr>");
-			var cols = "";
-			cols += '<td><div class="form-group"><input type="text" class="form-control input-square" name="product_price[' + counter + '][name]"/></div></td>';
-			cols += '<td><div class="form-group"><input type="text" class="form-control input-square" name="product_price[' + counter + '][price]"/></div></td>';
-			cols += '<td><div class="form-group"><input type="button" class="ibtnDel btn btn-xs btn-danger "  value="Delete"></div></td>';
-			newRow.append(cols);
-			$("table.order-list").append(newRow);
-			counter++;
-		});
-		$("table.order-list").on("click", ".ibtnDel", function(event) {
+	
+	// Add Product Attribute
+	var counter = 0;
+    var maxField = 3; //Input fields increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('.field_wrapper'); //Input field wrapper
+    var fieldHTML = '<div><table><tr><td><input type="text" class="form-control" name="price_detail[]" value=""/></td><td><select class="form-control" id="customer_type" name="customer_type[]"><option>---Pilih Type Pengguna ---</option><option value="umum"> Umum </option><option value="civitas"> Civitas </option><option value="mahasiswa"> Mahasiswa </option></select></td><td><input class="form-control" type="text" name="price[]" value=""/></td><td><a href="javascript:void(0);" class="remove_button btn  btn-danger"> Hapus </a></td></tr></table></div>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+    
+    // Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increase field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }else{
+            alert('A maximum of '+maxField+' fields are allowed to be added. ');
+        }
+    });
+    
+    // Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrease field counter
+    });
+	
+	$("table.attribute-list").on("click", ".remove_button", function(event) {
 			$(this).closest("tr").remove();
 			counter -= 1
 		});
-	});
+});
 </script>
 @include('admin.partials._swalDeleteConfirm')
 @endpush

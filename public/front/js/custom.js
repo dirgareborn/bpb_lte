@@ -76,3 +76,57 @@ $(document).on('click','.deleteCartItem',function(){
         });
     }
 })
+
+//ApplyCoupon
+$(document).on('click','#ApplyCoupon',function(){
+	var user = $(this).attr("user");
+	if(user==1){
+		
+	}else{
+		alert("Silahkan Login untuk menggunakan Kupon");
+		return false;
+	}
+	
+	var code = $("#code").val();
+	$.ajax({
+		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+		type:'post',
+        data:{code:code},
+        url:'/apply-coupon',
+        success:function(resp){
+			if(resp.status==false){
+                $('.alert-danger').show();
+                $('.alert-danger').delay(3000).fadeOut('slow');
+                $('.alert-danger').html("<div class='alert alert-danger alert-dismissible fade show' role='alert'><strong>"+ resp['message'] + "</strong><span class='close' aria-hidden='true' onclick='this.parentElement.style.display='none';'>&times;</span></div>");
+            }else if(resp.status==true){
+                if(resp.couponAmount>0){
+                    $(".couponAmount").text(resp.couponAmount);
+                }else{
+                    $(".couponAmount").text("0");
+                }
+                if(resp.grandTotal>0){
+                    $(".grandTotal").text(resp.grandTotal);
+                }
+               
+                $('.alert-success').show();
+                $('.alert-success').delay(3000).fadeOut('slow');
+                $('.alert-success').html("<div class='alert alert-success alert-dismissible fade show' role='alert'><strong>"+ resp['message'] + "</strong><span class='close' aria-hidden='true' onclick='this.parentElement.style.display='none';'>&times;</span></div>");
+                
+                $("#totalCartItems").html(resp.totalCartItems);
+                $("#appendCartItems").html(resp.view);
+                $("#appendMiniCartItems").html(resp.minicartview);
+                
+            }
+		},error:function(){
+			alert("Error");
+		}
+	});
+});
+
+// Payment Method Show/Hide
+$("#ManualCoupon").click(function(){
+    $("#couponField").show();
+});
+$("#AutomaticCoupon").click(function(){
+    $("#couponField").hide();
+});

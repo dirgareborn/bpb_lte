@@ -12,11 +12,22 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Session;
 use App\Models\Location;
 use App\Models\ProductsImage;
+use App\Models\ProductAttribute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Cart;
 
 class ProductController extends Controller
 {
+	
+	public function cart(){
+
+        // $getCartItems = Cart::getCartItems();
+        $getCartItems = getCartItemsDashboard();
+        // dd($getCartItems);
+        Route::get('coupons', 'CouponController@coupons');
+    }
+	
     /**
      * Display a listing of the resource.
      */
@@ -90,7 +101,7 @@ class ProductController extends Controller
      */
     public function edit(Request $request, $id=null)
     {
-        // dd($request);
+         //dd($request);
         $getCategories = Category::getCategories();
         $getLocations  = Location::All();
 
@@ -109,6 +120,7 @@ class ProductController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
             // dd($data['product_price']);
+			
             if($id==""){
                 $productCount = Product::where('product_name', $data['product_name'])->count();
                 if($productCount>0){
@@ -139,24 +151,42 @@ class ProductController extends Controller
             $this->validate($request,$rules,$customMessages);
 
             if($request->hasFile('cover_image')){
-                $avatar = $request->file('cover_image');
-                $filename = time() . '.' . $avatar->getClientOriginalExtension();
-                $image = Image::read($avatar);
-                // Resize image
-                $image->resize(300, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(public_path('front/images/products/' . $filename));
-                $data['product_image'] = $filename;
+                $file = $request->file('cover_image');
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $fileName = str::random(5)."-".date('his')."-".str::random(3).".".$extension;
+                        
+                $destinationPath = 'front/images/products'.'/';
+                $file->move($destinationPath, $fileName);
+                $data['product_image'] = $fileName;
                 }else if (!empty($data['current_image'])){
                     $data['product_image'] = $data['current_image'];
                 }else{
                     $data['product_image'] = "";
                 }
+				
+				if($data['discount_type'] ="percent"){
+					$product->discount_type = "percent";
+					$product->final_price = $data['product_price'] - ($data['product_price'] * $data['product_discount']/ 100);
+				}else if($data['discount_type'] ="nominal"){
+					$product->discount_type = "nominal";
+					$product->final_price = $data['product_price']-$data['product_discount'];
+				}else{
+					$getCategoryDiscount = Categories::select('category_discount')->where('id', $data['category_id'])->first();
+					if($getCategoryDiscount->category_discount = 0){
+						$product->discount_type = "";
+						$product->final_price = $data['product_price'];
+					}else{
+						$product->discount_type = "category";
+						$product->final_price = $data['product_price']-$getCategoryDiscount->category_discount;
+					}
+				}
                 $product->category_id = $data['category_id'];
                 $product->location_id = $data['location_id'];
                 $product->product_name = $data['product_name'];
                 $product->product_facility = $data['product_facility'];
                 $product->product_price = $data['product_price'];
+				$product->product_discount = $data['product_discount'];
                 $product->product_image = $data['product_image'];
                 $product->location_id = $data['location_id'];
                 $product->product_description = $data['product_description'];
@@ -191,6 +221,23 @@ class ProductController extends Controller
                         $image->save();
                     }
                 }
+				if(!empty($data['price_detail'])){
+					$pd = $data['price_detail'];
+					//dd($pd);
+					foreach($pd as  $key => $value){
+					// Data Customeeeer Price
+					$attribute = new ProductAttribute;
+					$attribute->price_detail = $value;
+					$attribute->product_id = $product_id;
+					$attribute->customer_type = $data['customer_type'][$key];
+					$attribute->price = $data['price'][$key];
+					$attribute->status = 1;
+					$attribute->save();
+					}
+				}
+				
+				
+				
             return redirect('admin/products')->with('success_message',$message);
         }
         return view('admin.products.add_edit_product')->with(compact('title','product','getCategories','getLocations','productSlide'));

@@ -41,12 +41,15 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::post('/add-to-cart','ProductController@addToCart');
     Route::get('/cart','ProductController@Cart');
     Route::get('/cart/delete-cart-item/{id?}','ProductController@deleteItem');
-
+	
+	Route::post('/apply-coupon','ProductController@applyCoupon');
+	Route::match(['get','post'],'/checkout','ProductController@checkout');
+	
     Route::get('/visi-misi', [IndexController::class,'visiMisi'])->name('visi-misi');
     Route::get('/kontak-kami', [IndexController::class,'kontak'])->name('kontak-kami');
     Route::get('/struktur-organisasi', [IndexController::class,'strukturOrganisasi'])->name('struktur-organisasi');
 
-    
+    Route::post('newsletter/store','App\Http\Controllers\Admin\NewsletterController@store');
 });
 Auth::routes();
 // User Route
@@ -90,6 +93,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-product-status','ProductController@updateStatus');
         Route::get('delete-product/{id?}','ProductController@deleteProduct');
         Route::get('delete-product-image/{id?}','ProductController@deleteProductImage');
+		
         Route::get('delete-product-image-slide/{id?}','ProductController@deleteProductImageSlide');
         Route::match(['get','post'],'add-edit-product/{id?}','ProductController@edit');
 
@@ -99,6 +103,22 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('delete-banner/{id?}','BannerController@deleteBanner');
         Route::get('delete-banner-image/{id?}','BannerController@deleteBannerImage');
         Route::match(['get','post'],'add-edit-banner/{id?}','BannerController@edit');
+		
+		// Account Bank
+		Route::get('account-banks', 'AccountBankController@accountbanks');
+        Route::post('update-account-bank-status','AccountBankController@updateStatus');
+        Route::get('delete-account-bank/{id?}','AccountBankController@deleteAccountBank');
+        Route::get('delete-account-bank-icon/{id?}','AccountBankController@deleteAccountBankImage');
+        Route::match(['get','post'],'add-edit-account-bank/{id?}','AccountBankController@edit');
+		
+		// Coupons
+        Route::get('coupons', 'CouponController@coupons');
+        Route::post('update-coupon-status','CouponController@updateStatus');
+        Route::get('delete-coupon/{id?}','CouponController@deletCoupon');
+        Route::match(['get','post'],'add-edit-coupon/{id?}','CouponController@edit');
+		
+        // Customer
+        Route::get('customers', 'UserController@users');
     });
 });
 

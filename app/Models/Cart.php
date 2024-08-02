@@ -24,7 +24,7 @@ class Cart extends Model
     // }
 
     public function product(){
-        return $this->belongsTo(Product::class,'product_id')->with('images');
+        return $this->belongsTo(Product::class,'product_id')->with('images','categories');
     }
     public static function productBooked($product_id,$booked){
         $productBooked = Cart::where(['product_id'=>$product_id,'start_date'=>$booked])->first();

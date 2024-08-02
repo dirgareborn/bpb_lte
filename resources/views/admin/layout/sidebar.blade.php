@@ -45,7 +45,7 @@
                             <a href="#" class="nav-link {{ request()->is('admin/update-detail','admin/update-password') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Pengaturan Akun
+                                    Manajemen Admin
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -62,32 +62,49 @@
                                         <p>Update Detail Admin</p>
                                     </a>
                                 </li>
+                                @if(Auth::guard('admin')->user()->type=="admin")
+                                <li class="nav-item">
+                                    <a href="{{ url('admin/subadmins') }}" class="nav-link {{ request()->is('admin/subadmins') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>
+                                            Daftar Admin
+                                        </p>
+                                    </a>
+                                </li>
+                                @endif
                             </ul>
                         </li>
                         @if(Auth::guard('admin')->user()->type=="admin")
-                        <li class="nav-item">
-                            <a href="{{ url('admin/subadmins') }}" class="nav-link {{ request()->is('admin/subadmins') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-users"></i>
+						<li class="nav-item">
+                            <a href="{{ url('admin/account-banks') }}" class="nav-link {{ request()->is('admin/account-banks') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-money-bill"></i> 
                                 <p>
-                                    Subadmins
+                                    Akun Bank
                                 </p>
                             </a>
                         </li>
                         @endif
-                        <li class="nav-item">
-                            <a href="{{ url('admin/cms-pages') }}" class="nav-link">
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>
-                                    CMS Management
+                                   Manajemen Halaman <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('admin/cms-pages') }}" class="nav-link {{ request()->is('admin/update-password') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>CMS</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-header">MANAJEMEN KATALOG</li>
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link {{ request()->is('admin/update-detail','admin/update-password') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                KATALOG
+                                Manajemen Katalog
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -99,31 +116,46 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('admin/products') }}" class="nav-link {{ request()->is('admin/update-detail') ? 'active' : '' }}">
+                                    <a href="{{ url('admin/products') }}" class="nav-link {{ request()->is('admin/products') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Produk</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('admin/banners') }}" class="nav-link {{ request()->is('admin/update-detail') ? 'active' : '' }}">
+                                    <a href="{{ url('admin/banners') }}" class="nav-link {{ request()->is('admin/banners') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Banner</p>
                                     </a>
                                 </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-header">JADWAL PEMAKAIAN ASET</li>
-                        <li class="nav-item">
-                            <a href="{{ url('admin/categories') }}" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
+                                <li class="nav-item">
+                            <a href="{{ url('admin/coupons') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>
-                                    Kategori
-                                    <span class="badge badge-info right">2</span>
+                                    Kupon Subsidi
+                                    <span class="badge badge-info right"></span>
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-header">MISCELLANEOUS</li>
+                            </ul>
+                        </li>
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-image"></i>
+                                <p>
+                                   Manajemen Customer <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('admin/customers') }}" class="nav-link {{ request()->is('admin/update-password') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Customer</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>   
+                        
+                        <li class="nav-header">PETUNJUK PENGGUNAAN</li>
                         <li class="nav-item">
                             <a href="https://adminlte.io/docs/3.1/" class="nav-link">
                                 <i class="nav-icon fas fa-file"></i>

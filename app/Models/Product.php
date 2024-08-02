@@ -17,7 +17,6 @@ class Product extends Model
 
     protected $casts = [
         'product_facility'  => 'json',
-        'product_price'     => 'json',
     ];
 
     protected static function boot() {
@@ -78,5 +77,19 @@ class Product extends Model
         $productStatus = Product::select('status')->where('id',$product_id)->first();
         return $productStatus->status;
     }
+	public function getProductDetails($product_id){
+		$getProductDetails = Product::where('id',$product_id)->first()->toArray();
+		return $getProductDetails;
+	}
+	public function getAttributeDetails($product_id,$cusType){
+		$getAttributeDetails = ProductAttribute::where(['product_id'=>$product_id,'customer_type'=>$cusType])
+        ->first()->toArray();
+		return $getAttributeDetails;
+	}
+	
+	public static function getProductActive(){
+		$getProductActive = Product::where('status',1)->get()->toArray();
+		return $getProductActive;
+	}
     
 }

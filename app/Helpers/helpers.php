@@ -1,5 +1,6 @@
 <?php
-namespace app\Helpers\helpers;
+
+//namespace app\Helpers;
 
 use Illuminate\Support\Carbon;
 use Intervention\Image\Laravel\Facades\Image;

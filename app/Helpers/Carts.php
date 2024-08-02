@@ -25,3 +25,7 @@ function getCartItems(){
     }
     return $getCartItems;
 }
+function getCartItemsDashboard(){
+    $getCartItemsDashboard = Cart::with('product')->get()->toArray();
+    return $getCartItemsDashboard;
+}
