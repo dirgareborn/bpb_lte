@@ -77,11 +77,11 @@ class Product extends Model
         $productStatus = Product::select('status')->where('id',$product_id)->first();
         return $productStatus->status;
     }
-	public function getProductDetails($product_id){
+	public static function getProductDetails($product_id){
 		$getProductDetails = Product::where('id',$product_id)->first()->toArray();
 		return $getProductDetails;
 	}
-	public function getAttributeDetails($product_id,$cusType){
+	public static function getAttributeDetails($product_id,$cusType){
 		$getAttributeDetails = ProductAttribute::where(['product_id'=>$product_id,'customer_type'=>$cusType])
         ->first()->toArray();
 		return $getAttributeDetails;

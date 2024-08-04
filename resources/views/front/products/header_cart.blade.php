@@ -3,10 +3,9 @@ use App\Models\Product;
 $getCartItems = getCartItems();
 ?>
 
-<div class="nav-item nav-link dropdown">
-    <a href="{{ url('cart') }}" class="dropdown-toggle" data-toggle="dropdown"><i class="fas fa-shopping-cart "></i>{{ $totalCartItems }}</a>
+<div class="nav-item nav-link dropdown" id="appendMiniCartItems">
+    <a href="{{ url('cart') }}" class="dropdown-toggle" data-toggle="dropdown"><i class="fas fa-shopping-cart "><span class="position-absolute  start-100 translate-middle badge rounded-pill bg-danger">{{ $totalCartItems }}</span></i></a>
     <ul class="dropdown-menu rounded-0 m-0" role="menu">
-
         @php $total_price = 0 @endphp
         @foreach($getCartItems as $item)
         <?php

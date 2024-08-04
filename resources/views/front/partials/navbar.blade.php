@@ -41,6 +41,8 @@ $totalCartItems = totalCartItems();
                     </ul>
                 </div>
                 <a href="{{ url('kontak-kami') }}" class="nav-item nav-link {{ request()->is('kontak-kami') ? 'active' : '' }}">Kontak</a>
+                <a class="nav-item nav-link">|</a>
+				@include('front.products.header_cart')
                 @guest
                     @if (Route::has('login'))
                     <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
@@ -51,7 +53,7 @@ $totalCartItems = totalCartItems();
                     @else
                     <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                  <i class="fa fa-user"></i> 
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -64,10 +66,11 @@ $totalCartItems = totalCartItems();
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+									<a class="dropdown-item" href="{{ url('profil') }}">Profil</a>
+									<a class="dropdown-item" href="{{ url('daftar-pesanan') }}">Daftar Pesanan</a>
                                 </div>
                             </li>
                 @endguest
-                @include('front.products.header_cart')
             </div>
         </div>
     </nav>

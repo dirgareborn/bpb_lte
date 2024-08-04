@@ -47,7 +47,7 @@
         <!-- Spinner End -->
         @include('front.partials.navbar')
         @if(Route::is('beranda'))
-        @include('front.partials.header') 
+        @include('front.partials.slider') 
         @include('front.partials.search')
         @endif  
         @yield('content')

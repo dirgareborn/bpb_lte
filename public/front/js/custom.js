@@ -1,4 +1,24 @@
 $(document).ready(function(){
+	
+    $("#current_pwd").keyup(function(){
+        var current_pwd = $("#current_pwd").val();
+        // alert(current_pwd);
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            type:'post',
+            url:'/check-current-password',
+            data:{current_pwd:current_pwd},
+            success:function(resp){
+                if(resp=="false"){
+                    $("#verifyCurrentPwd").html("Password Yang anda masukkan salah");
+                }else if(resp=="true"){
+                    $("#verifyCurrentPwd").html("Password Yang anda masukkan Benar !");
+                }
+            },error:function(){
+                $("#verifyCurrentPwd").html("Error !");
+            }
+        })
+    });
     $("#sort").on('change', function(){
         this.form.submit();
     });
@@ -20,7 +40,7 @@ $(document).ready(function(){
                     $('.print-error-msg').show();
                     $('.print-error-msg').delay(3000).fadeOut('slow');
                     $('.print-error-msg').html("<div class='alert alert-success error-message' role='alert'>"+resp['message']+"<button type='button' class='btn-xs btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>");
-                }else{
+				}else{
                     $('.print-error-msg').show();
                     $('.print-error-msg').delay(3000).fadeOut('slow');
                     $('.print-error-msg').html("<div class='alert alert-warning error-message' role='alert'>"+resp['message']+"<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>");
@@ -104,8 +124,8 @@ $(document).on('click','#ApplyCoupon',function(){
                 }else{
                     $(".couponAmount").text("0");
                 }
-                if(resp.grandTotal>0){
-                    $(".grandTotal").text(resp.grandTotal);
+                if(resp.grand_total>0){
+                    $(".grandTotal").text(resp.grand_total);
                 }
                
                 $('.alert-success').show();

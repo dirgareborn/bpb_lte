@@ -16,7 +16,10 @@ use App\Models\OrderProduct;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+
 class ProductController extends Controller
 {
     public function listing(){
@@ -195,9 +198,9 @@ class ProductController extends Controller
 					}else{
 						$couponAmount = $total_amount * ($couponDetails->amount/100);
 					}
-					$grandTotal = $total_amount - $couponAmount;
+					$grand_total = $total_amount - $couponAmount;
 					Session::put('couponAmount',$couponAmount);
-					Session::put('grandTotal',$grandTotal);
+					Session::put('grandTotal',$grand_total);
 					Session::put('couponCode',$data['code']);
 					$message = "Kupo berhasil digunakan, anda mendapatkan potongan harga";
 					
@@ -205,26 +208,30 @@ class ProductController extends Controller
 						'status'=>true,
 						'totalCartItems'=> $totalCartItems,
 						'couponAmount'=> $couponAmount,
-						'grandTotal'=> $grandTotal,
+						'grand_total'=> $grand_total,
 						'message'=> $message,
 						'view'=>(String)View::make('front.products.cart_items')->with(compact('getCartItems')),
 					]);
 				}
 				
 			}
-			
-			
 		}
 	}
-	public function checkouts(Request $request){
+	public function checkout(Request $request){
+		
 		$getCartItems = getCartItems();
+		$snap_token = 0;
+		
+			
 		if(count($getCartItems)==0){
 			$message = "Keranjang Masih Kosong, Booking sebelum melakukan checkout!";
 			return redirect('cart')->with('error_message',$message);
 		}
 		if($request->isMethod('post')){
+			
             $data = $request->all();
 			
+			//echo "<pre>"; print_r ($data); die;
 			//check Payment Method
 			if(empty($data['payment_gateway'])){
 				return redirect()->back()->with('error_message','Silahkan Pilih Metode Pembayaran');
@@ -234,8 +241,8 @@ class ProductController extends Controller
 			}
 			
 			//Payment Cash
-			if($data['payment_gateway']=="CASH"){
-				$payment_method = "CASH";
+			if($data['payment_gateway']=="cash"){
+				$payment_method = "cash";
 				$order_status ="New";
 			}else{
 				$payment_method = "Prepaid";
@@ -249,18 +256,26 @@ class ProductController extends Controller
 				$total_price = $total_price + ($getAttributePrice['final_price'] * $item['qty']);	
 			}
 			
-			// Insert Order Details
-			$order = new Order;
-			$order->user_id = Auth::user()->id;
-			$order->name = $data['name'];
-			$order->address = $data['address'];
-			$order->payment_method = $payment_method;
-			$order->payment_gateway = $data['payment_gateway'];
-			$order->grand_total = $total_price;
-			$order->order_status = $order_status;
-			$order->save();
+			$grand_total = $total_price - Session::get('couponAmount');
+			Session::put('grand_total', $grand_total);
 			
-			$order_id = DB::getPdo()->lastInsertId(); 
+			// Insert Order Details
+			$order = Order::create([
+					'user_id' => Auth::user()->id,
+					'name' => $data['name'],
+					'email' => $data['email'],
+					'address' => $data['address'],
+					'mobile' => $data['mobile'],
+					'pincode' => $data['pincode'],
+					'payment_gateway' => $data['payment_gateway'],
+					'payment_method' => $payment_method,
+					'grand_total' => $grand_total,
+					'coupon_code' => Session::get('couponCode'),
+					'coupon_amount' => Session::get('couponAmount'),
+					'order_status' => $order_status,
+			]);
+			$order_id = DB::getPdo()->lastInsertId(); 		
+			
 			foreach($getCartItems as $key => $item){
 				$getProductDetails = Product::getProductDetails($item['product_id']);
 				$getAttributeDetails = Product::getAttributeDetails($item['product_id'],$item['customer_type']);
@@ -279,17 +294,23 @@ class ProductController extends Controller
 				$cartItem->save();
 				
 			}
-			Session::put('order_id',$order_id);
+			$order = Session::put('order_id',$order_id);
 			DB::commit();
+			
+			return redirect('/order-success');
 		}
 		
 		//dd($data);
-		return view('front.products.checkout')->with(['data'=>$data]);
+		return view('front.products.checkout')->with(['getCartItems'=>$getCartItems,'snap_token'=>$snap_token]);
 	}
-	public function checkout(){
-		$getCartItems = getCartItems();
-		return view('front.products.checkout')->with(['getCartItems'=>$getCartItems]);
+public function orderSuccess(){
+	if(Session::has('order_id')){
+		 Cart::where('user_id', Auth::user()->id)->delete();
+		 return view('front.orders.order_success');
+	}else{
+		return redirect('/cart');
 	}
+}
     public function deleteItem($id)
     {   
         if(Auth::check()){

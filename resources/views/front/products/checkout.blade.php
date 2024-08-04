@@ -8,12 +8,11 @@ use App\Models\Product; ?>
 @section('content')
 <div class="container">
     <main>
-        <div class="container-xxl py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-            <h2>Formulir Checkout</h2>
+        <div class="container-fluid py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="/logo.png" alt="" width="72" height="72">
+            <h2>Formulir Pembayaran</h2>
             <p class="lead">
-                Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.
-            </p>
+Sebelum Bapak/Ibu Melakukan pembayaran, Pastikan semua data yang diinput sudah benar! </p>
         </div>
 
         <div class="row g-5">
@@ -58,7 +57,6 @@ use App\Models\Product; ?>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                     Subsidi (Diskon)  <strong class="couponAmount">
-                        
                                 @if(Session::has('couponAmount')) 
                                     @currency(Session::get('couponAmount'))
                                     @else Rp.0 
@@ -74,14 +72,15 @@ use App\Models\Product; ?>
                             </strong> 
                     </li>
                 </ul>
-                <div class="alert alert-danger" style="display: none;"></div>
+               <!-- <div class="alert alert-danger" style="display: none;"></div>
                     <div class="alert alert-success"  style="display: none;"></div>
                 <form class="card p-2" action="javascript:;">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="code" name="coupon_code" placeholder="Kode Subsidi / Diskon">
+                        <input type="text" class="couponCode form-control" id="code" name="coupon_code" placeholder="Kode Subsidi / Diskon">
                         <button @if(Auth::check()) user="1" @endif type="submit" id="ApplyCoupon" class="btn btn-secondary">Pakai</button>
                     </div>
                 </form>
+				-->
             </div>
             <div class="col-md-6 col-lg-6">
                 <h4 class="mb-3">Data Penagihan</h4>
@@ -92,7 +91,7 @@ use App\Models\Product; ?>
                             <label for="Nama" class="form-label">Nama</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">@</span>
-                                <input type="text" class="form-control" id="Nama" placeholder="Nama" required>
+                                <input type="text" class="form-control" id="Nama" name="name" placeholder="Name" Value="{{ Auth::user()->name ?? '' }}" required>
                                 <div class="invalid-feedback">
                                     Your username is required.
                                 </div>
@@ -101,94 +100,88 @@ use App\Models\Product; ?>
 
                         <div class="col-12">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" id="alamat" placeholder="1234 Main St" required>
+                            <input type="text" class="form-control" id="alamat" placeholder="Jl. Raya Pendidikan No. 1" name="address" required Value="{{ Auth::user()->address ?? '' }}">
                             <div class="invalid-feedback">
                                 Please enter your shipping alamat.
                             </div>
                         </div>
-
+						
                         <div class="col-4">
                             <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-                            <input type="email" class="form-control" id="email" placeholder="customer@mallbisnisunm.com">
+                            <input type="email" class="form-control" id="email" placeholder="customer@mallbisnisunm.com" name="email" Value="{{ Auth::user()->email ?? '' }}">
                             <div class="invalid-feedback">
                                 Please enter a valid email address for shipping updates.
                             </div>
                         </div>
                         <div class="col-4">
-                            <label for="email" class="form-label">No. Handphone <span class="text-muted">(Optional)</span></label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                            <div class="invalid-feedback">
-                                Please enter a valid email address for shipping updates.
+                            <label for="mobile" class="form-label">No. Handpone</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">+62</span>
+                                <input type="text" class="form-control" name="mobile" id="mobile" placeholder="81234567" Value="{{ Auth::user()->mobile ?? '' }}" required>
+                                <div class="invalid-feedback">
+                                    Your username is required.
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <label for="pincode" class="form-label">Pincode</label>
-                            <input type="text" class="form-control" id="pincode" placeholder="" required>
+                            <label for="pincode" class="form-label">Kode Pin</label>
+                            <input type="text" class="form-control" id="pincode" name="pincode" placeholder="" Value="{{ Auth::user()->pincode ?? '' }}" >
                             <div class="invalid-feedback">
                                 Zip code required.
                             </div>
                         </div>
                     </div>
+					<hr class="my-4">
+					   <div class="form-check">
+						<input type="checkbox" class="form-check-input" name="agree" id="save-info">
+						<label class="form-check-label" for="save-info"> Setujui Untuk Melanjutkan Pembayaran</label>
+					  </div>
+
                     <hr class="my-4">
                     <h4 class="mb-3">Pembayaran</h4>
                     <div class="my-3">
                         <div class="form-check">
-                            <input id="cash" name="payment_method" type="radio" class="form-check-input" value="cash" checked required>
-                            <label class="form-check-label" for="payment_method">Cash</label><br>
+                            <input id="cash" name="payment_gateway" type="radio" class="form-check-input" value="cash" checked required>
+                            <label class="form-check-label" for="payment_gateway">Cash</label><br>
                             <small class="text-muted"> (Silahkan selesaikan pembayaran maksimal 1 hari setelah booking )</small>
                         </div>
                         <div class="form-check">
-                            <input id="transfer" value="transfer" name="payment_method" type="radio" class="form-check-input" required>
+                            <input id="transfer" value="transfer" name="payment_gateway" type="radio" class="form-check-input" required>
                             <label class="form-check-label" for="debit">Transfer Bank</label><br>
                             <small class="text-muted"> (lakukan pembayaran langsung ke rekening bank kami, silakan gunakan kode id pesanan Anda sebagai referensi pembayaran )</small>
                         </div>
                     </div>
-
-                    <!-- <div class="row gy-3">
-                        <div class="col-md-6" style="display:none;" id="paymentField">
-                            <label for="cc-name" class="form-label">Name on card</label>
-                            <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                            <small class="text-muted">Full name as displayed on card</small>
-                            <div class="invalid-feedback">
-                                Name on card is required
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="col-md-6" style="display:none;" id="paymentField">
-                            <label for="cc-number" class="form-label">Nomor Rekening</label>
-                            <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Credit card number is required
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="col-md-3">
-                            <label for="cc-expiration" class="form-label">Expiration</label>
-                            <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Expiration date required
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label for="cc-cvv" class="form-label">CVV</label>
-                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Security code required
-                            </div>
-                        </div> -->
-                    <!-- </div> -->
-
                     <hr class="my-4">
-
-                    <button class="w-100 btn btn-primary btn-lg" type="submit">Lanjut Ke Pembayaran</button>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit" id="pay-button">Lanjut Ke Pembayaran</button>
                 </form>
             </div>
         </div>
     </main>
 </div>
+@php $snap_token =0; @endphp 
+@if(isset($order->snap_token) > 0) {{$snap_token=$order->snap_token }} @else {{ $snap_token ="" }} @endif
 @endsection
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.12.2/sweetalert2.min.js" integrity="sha512-JWPRTDebuCWNZTZP+EGSgPnO1zH4iie+/gEhIsuotQ2PCNxNiMfNLl97zPNjDVuLi9UWOj82DEtZFJnuOdiwZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY')}}"></script>
+ <script type="text/javascript">
+      document.getElementById('pay-button').onclick = function(){
+        // SnapToken acquired from previous step
+        snap.pay('{{ $snap_token }}', {
+          // Optional
+          onSuccess: function(result){
+            /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+          },
+          // Optional
+          onPending: function(result){
+            /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+          },
+          // Optional
+          onError: function(result){
+            /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+          }
+        });
+      };
+    </script>
 @endpush
