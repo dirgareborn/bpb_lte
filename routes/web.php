@@ -26,10 +26,10 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('/', [IndexController::class,'index'])->name('beranda');
 
     // Listing Categories Route
-    $catUrls = Category::select('url')->where('status',1)->get()->pluck('url');
+   $catUrls = Category::select('url')->where('status',1)->get()->pluck('url');
     foreach($catUrls as $key => $url){
         Route::get($url,'ProductController@listing');
-    }
+    } 
 
     //Product Detail
     Route::get('product/{id}','ProductController@detail');
@@ -45,6 +45,17 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 	Route::post('/apply-coupon','ProductController@applyCoupon');
 	Route::match(['get','post'],'/checkout','ProductController@checkout');
 	
+	Route::get('/order-success','ProductController@orderSuccess');
+	Route::get('/daftar-pesanan','OrderController@orders');
+	
+	//customer
+	Route::get('/account','UserController@account');
+	Route::get('/profil','UserController@profil');
+	Route::match(['get','post'],'update-password','UserController@updatePassword');
+    Route::post('update-detail','UserController@updateDetail');
+    Route::post('check-current-password','UserController@checkCurrentPassword');
+	
+	// Page
     Route::get('/visi-misi', [IndexController::class,'visiMisi'])->name('visi-misi');
     Route::get('/kontak-kami', [IndexController::class,'kontak'])->name('kontak-kami');
     Route::get('/struktur-organisasi', [IndexController::class,'strukturOrganisasi'])->name('struktur-organisasi');

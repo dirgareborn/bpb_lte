@@ -17,7 +17,6 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
     protected $profil;
     protected $MenuCategories;
-    
     public function __construct()
     
     {
