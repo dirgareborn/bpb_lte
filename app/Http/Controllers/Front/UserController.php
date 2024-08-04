@@ -86,18 +86,18 @@ class UserController extends Controller
             $data = $request->all();
 			
             $rules = [
-                'name'    => 'required|regex:/^[\pL\s\-]+$/u|max:25',
+                'name'    => 'required|max:35',
             ];
 
             $customMessages = [
                 'name.required'   => 'Nama harus terisi',
-                'name.regex'   => 'Nama harus valid',
-                'name.max'        =>  'Nama tidak boleh lebih dari 25 karakter',
+                // 'name.regex'   => 'Nama harus valid',
+                'name.max'        =>  'Nama tidak boleh lebih dari 35 karakter',
 				
             ];
 			
            $this->validate($request,$rules,$customMessages);
-			//	echo "<pre>"; print_r($customMessages); die;
+			//echo "<pre>"; print_r($customMessages); die;
             // update detail admin
 			//dd($data);
             if($request->hasFile('image')){

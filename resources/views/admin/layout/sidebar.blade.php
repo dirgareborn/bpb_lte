@@ -10,7 +10,7 @@
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                     @if(!empty(Auth::guard('admin')->user()->image))
-                        <img src="{{ url('admin/images/avatars/'.Auth::guard('admin')->user()->image) }}" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{ url('admin/images/admins/'.Auth::guard('admin')->user()->image) }}" class="img-circle elevation-2" alt="User Image">
                     @else    
                         <img src="{{ url('admin/images/default-150x150.png') }}" class="img-circle elevation-2" alt="User Image">
                     @endif

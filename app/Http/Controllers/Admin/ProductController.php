@@ -154,7 +154,7 @@ class ProductController extends Controller
                 $file = $request->file('cover_image');
                 $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
-                $fileName = str::random(5)."-".date('his')."-".str::random(3).".".$extension;
+                $fileName = $filename."-".date('his')."-".str::random(3).".".$extension;
                         
                 $destinationPath = 'front/images/products'.'/';
                 $file->move($destinationPath, $fileName);
@@ -172,7 +172,7 @@ class ProductController extends Controller
 					$product->discount_type = "nominal";
 					$product->final_price = $data['product_price']-$data['product_discount'];
 				}else{
-					$getCategoryDiscount = Categories::select('category_discount')->where('id', $data['category_id'])->first();
+					$getCategoryDiscount = Category::select('category_discount')->where('id', $data['category_id'])->first();
 					if($getCategoryDiscount->category_discount = 0){
 						$product->discount_type = "";
 						$product->final_price = $data['product_price'];

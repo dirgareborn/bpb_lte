@@ -29,7 +29,7 @@
     <link href="{{url('front/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{url('front/css/style.css') }}" rel="stylesheet">
+    <link href="{{url('front/css/custom_style.css') }}" rel="stylesheet">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />
     <!-- Scripts -->

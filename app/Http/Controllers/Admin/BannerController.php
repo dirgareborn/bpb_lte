@@ -76,12 +76,14 @@ class BannerController extends Controller
             $this->validate($request,$rules,$customMessages);
 
             if($request->hasFile('banner_image')){
-                $avatar = $request->file('banner_image');
-                $filename = time() . '.' . $avatar->getClientOriginalExtension();
-                $image = Image::read($avatar);
-                // Resize image 1000x1000px
-                $image->save(public_path('front/images/banners/' . $filename));
-                $data['image'] = $filename;
+                $file = $request->file('banner_image');
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $fileName = $filename."-".date('his')."-".str::random(3).".".$extension;
+                        
+                $destinationPath = 'front/images/banners'.'/';
+                $file->move($destinationPath, $fileName);
+                $data['image'] = $fileName;
                 }else if (!empty($data['current_image'])){
                     $data['image'] = $data['current_image'];
                 }else{

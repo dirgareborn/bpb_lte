@@ -76,12 +76,14 @@ class CategoryController extends Controller
             $this->validate($request,$rules,$customMessages);
 
             if($request->hasFile('category_image')){
-                $avatar = $request->file('category_image');
-                $filename = time() . '.' . $avatar->getClientOriginalExtension();
-                $image = Image::read($avatar);
-                // Resize image
-                $image->save(public_path('front/images/categories/' . $filename));
-                $data['category_image'] = $filename;
+                $file = $request->file('category_image');
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $fileName = $filename."-".date('his').".".$extension;
+                        
+                $destinationPath = 'front/images/categories'.'/';
+                $file->move($destinationPath, $fileName);
+                $data['category_image'] = $fileName;
                 }else if (!empty($data['current_image'])){
                     $data['category_image'] = $data['current_image'];
                 }else{

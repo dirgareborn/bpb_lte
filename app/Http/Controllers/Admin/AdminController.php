@@ -125,13 +125,13 @@ class AdminController extends Controller
             $this->validate($request,$rules,$customMessages);
             // update detail admin
             if($request->hasFile('admin_image')){
-                $avatar = $request->file('admin_image');
-                $filename = time() . '.' . $avatar->getClientOriginalExtension();
-                $image = Image::read($avatar);
-                // Resize image
-                $image->resize(300, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(public_path('admin/images/avatars/' . $filename));
+                $file = $request->file('admin_image');
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $fileName = $filename."-".date('his').".".$extension;
+                        
+                $destinationPath = 'front/images/admins'.'/';
+                $file->move($destinationPath, $fileName);
                 $data['admin_image'] = $filename;
                 }else if (!empty($data['current_image'])){
                     $data['admin_image'] = $data['current_image'];
