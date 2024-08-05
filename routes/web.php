@@ -45,7 +45,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 	Route::post('/apply-coupon','ProductController@applyCoupon');
 	Route::match(['get','post'],'/checkout','ProductController@checkout');
 	
-	Route::get('/order-success','ProductController@orderSuccess');
+	Route::get('/order-success','OrderController@orderSuccess');
+	Route::get('/order-invoice-pdf/{id}','OrderController@generatePDF');
+	Route::get('/download-invoice-pdf/{id}','OrderController@downloadPDF');
 	Route::get('/daftar-pesanan','OrderController@orders');
 	
 	//customer

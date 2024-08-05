@@ -38,7 +38,15 @@ class ProductController extends Controller
             return view('front.products.listing')->with(compact('categoryDetails','categoryProducts','page_title'));
         }else if(isset($_GET['query'])&&!empty($_GET['query'])){
             $search = $_GET['query'];
-            dd($search);
+			$categoryDetails['category_name'] = $search;
+
+			$categoryProducts = Product::with(['images'])->where(function($query)use($search){
+				$query->where('product_name','like','%'.$search.'%');
+				$query->orwhere('product_description','like','%'.$search.'%');
+			})->where('status',1);
+			$categoryProducts = $categoryProducts->get();
+            // dd($categoryProducts);
+			return view('front.products.listing')->with(compact('categoryDetails','categoryProducts','page_title'));
         }else{
             abort(404);
         }
@@ -205,7 +213,7 @@ class ProductController extends Controller
 					'view'=>(String)View::make('front.products.cart_items')->with(compact('getCartItems')),
 				]);
 				}else{
-					if($couponDetails->amount_type=="Fixed"){
+					if($couponDetails->amount_type=="fixed"){
 						$couponAmount = $couponDetails->amount;
 					}else{
 						$couponAmount = $total_amount * ($couponDetails->amount/100);
@@ -315,14 +323,6 @@ class ProductController extends Controller
 		//dd($data);
 		return view('front.products.checkout')->with(['getCartItems'=>$getCartItems,'snap_token'=>$snap_token]);
 	}
-public function orderSuccess(){
-	if(Session::has('order_id')){
-		 Cart::where('user_id', Auth::user()->id)->delete();
-		 return view('front.orders.order_success');
-	}else{
-		return redirect('/cart');
-	}
-}
     public function deleteItem($id)
     {   
         if(Auth::check()){

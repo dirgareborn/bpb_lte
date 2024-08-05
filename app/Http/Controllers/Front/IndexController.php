@@ -27,7 +27,8 @@ class IndexController extends Controller
         $page_title       = 'Struktur Organisasi';
         return view('front.struktur-organisasi', compact('strukturOrganisasi','page_title'));
 
-    }public function kontak(){
+    }
+    public function kontak(){
         $kontak = ProfilWebsite::first();
         $page_title       = 'Kontak Kami';
         return view('front.contact', compact('kontak','page_title'));

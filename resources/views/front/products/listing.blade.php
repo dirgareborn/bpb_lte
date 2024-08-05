@@ -17,8 +17,6 @@
         </div>
     </div>
 </div>
-
-
 @include('front.partials.search')
 <div class="container-xxl py-5">
     <div class="container">
@@ -58,6 +56,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
+</div>
         <!-- Property List End -->
         @endsection
