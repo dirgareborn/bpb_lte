@@ -5,11 +5,10 @@
 @endpush
 @section('content')
 <!-- Property List Start -->
-<div class="container-xxl py-5">
+<div class="container-xxl py-5 ">
     <div class="container">
 		@include('admin.partials.alert')
-       
-	   <strong> Anda berhasil booking / order {{ Session::get('order_id')}} Dengan Harga @currency(Session::get('grand_total')) </strong>
+    @include('front.orders.invoice')
     </div>
 </div>
 <!-- Property List End -->
