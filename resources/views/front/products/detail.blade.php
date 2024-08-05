@@ -232,20 +232,23 @@
                     <div class="row g-2">
                         <div class="col-md-10">
                             <div class="row g-2">
-                                <div class="col-md-6">
-                                    <input type="text" id="booked" name="booked" class="date form-control border-0 py-3" placeholder="Tanggal Penyewaan">
+                                <div class="col-md-4">
+                                    <input type="text" id="start" name="start" class="date form-control border-0 py-3" placeholder="Mulai Tanggal ">
                                 </div>
-                                <div class="col-md-6">
+								<div class="col-md-4">
+                                    <input type="text" id="end" name="end" class="date form-control border-0 py-3" placeholder="Sampai Tanggal">
+                                </div>
+                                <div class="col-md-4">
                                   <select name="customer_type" class="form-select border-0 py-3">
-                                    <option selected value="umum">Jenis Penyewa</option>
+                                    <option selected value="umum">Penyewa</option>
                                     <option value="umum">Umum</option>
                                     <option value="civitas">Civitas</option>
                                     <option value="mahasiswa">Mahasiswa</option>
                                   </select>
                                 </div>
-                                <div class="col-md-0">
+                               <!-- <div class="col-md-0">
                                     <input type="hidden" name="qty" id="qty" class="form-control border-0 py-3" value="1" placeholder="QTY">
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -258,7 +261,9 @@
                  
 
                 <div class="print-error-msg"></div>
-					</div>
+				</div>
+				<div class="print-success-msg"></div>
+				</div>
 				</div>
 			</div>
 		</div>

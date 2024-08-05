@@ -10,7 +10,7 @@
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                     @if(!empty(Auth::guard('admin')->user()->image))
-                        <img src="{{ url('admin/images/admins/'.Auth::guard('admin')->user()->image) }}" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{ url('admin/images/avatars/'.Auth::guard('admin')->user()->image) }}" class="img-circle elevation-2" alt="User Image">
                     @else    
                         <img src="{{ url('admin/images/default-150x150.png') }}" class="img-circle elevation-2" alt="User Image">
                     @endif
@@ -147,14 +147,29 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('admin/customers') }}" class="nav-link {{ request()->is('admin/update-password') ? 'active' : '' }}">
+                                    <a href="{{ url('admin/customers') }}" class="nav-link {{ request()->is('admin/customers') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Customer</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>   
-                        
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-image"></i>
+                                <p>
+                                   Manajemen Order <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('admin/orders') }}" class="nav-link {{ request()->is('admin/orders') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Orderan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>  
                         <li class="nav-header">PETUNJUK PENGGUNAAN</li>
                         <li class="nav-item">
                             <a href="https://adminlte.io/docs/3.1/" class="nav-link">

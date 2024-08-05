@@ -14,7 +14,7 @@ use App\Models\AdminsRole;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
-
+use Illuminate\Support\Str;
 class AdminController extends Controller
 {
     
@@ -126,13 +126,12 @@ class AdminController extends Controller
             // update detail admin
             if($request->hasFile('admin_image')){
                 $file = $request->file('admin_image');
-                $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
-                $fileName = $filename."-".date('his').".".$extension;
+                $fileName = Str::random(10)."-".date('his').".".$extension;
                         
-                $destinationPath = 'front/images/admins'.'/';
+                $destinationPath = 'admin/images/avatars'.'/';
                 $file->move($destinationPath, $fileName);
-                $data['admin_image'] = $filename;
+                $data['admin_image'] = $fileName;
                 }else if (!empty($data['current_image'])){
                     $data['admin_image'] = $data['current_image'];
                 }else{

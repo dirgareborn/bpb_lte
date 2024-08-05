@@ -107,6 +107,12 @@ function convert_born_date_to_age($date)
     $from = new DateTime($date);
     $to   = new DateTime('today');
     return $from->diff($to)->y;
+	
+}function convert_date_to_qty($start,$end)
+{
+    $from = new DateTime($start);
+    $to   = new DateTime($end);
+    return $from->diff($to)->d + 1;
 }
 
 function random_color_part()

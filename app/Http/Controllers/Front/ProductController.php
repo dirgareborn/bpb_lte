@@ -54,13 +54,16 @@ class ProductController extends Controller
 			Session::forget('couponCode');
 
             $data = $request->all();
-            // echo "<pre>"; print_r($data); die;
             //Cek Date Booked Status
-            $date_booking = Carbon::parse($data['booked'])->format('Y/m/d');
-            $isBooked = Cart::productBooked($data['product_id'],$date_booking);
+            $start = Carbon::parse($data['start'])->format('Y/m/d');
+            $end = Carbon::parse($data['end'])->format('Y/m/d');
+            $isBooked = Cart::where('product_id',$data['product_id'])
+		                     ->whereDate('start_date','<=' , $start)
+							 ->whereDate('end_date','>=', $end)->first();
 
+            //echo "<pre>"; print_r($isBooked); die;
             if($isBooked){
-                $message = "Produk Tidak Tersedia ditanggal ".$date_booking;
+                $message = "Produk Tidak Tersedia ditanggal ".$start ;
                 return response()->json(['status'=>false,'message'=>$message]);
             }
 
@@ -81,12 +84,21 @@ class ProductController extends Controller
             // Check Product if already 
             if(Auth::check()){
                 $user_id = Auth::user()->id;
-                $countProducts = Cart::where(['product_id'=>$data['product_id'],'start_date'=> $date_booking])->count();
+				$customer_type = Auth::user()->customer_type;
+                $countProducts = Cart::where('product_id',$data['product_id'])
+		                     ->whereDate('start_date','<=' , $start)
+							 ->whereDate('end_date','>=', $end)->count();
             }else{
                 // user is not logged in
                 $user_id = 0;
-                $countProducts = Cart::where(['product_id'=>$data['product_id'],'start_date'=> $date_booking])->count();
+				$customer_type = "umum";
+                $countProducts = Cart::where('product_id',$data['product_id'])
+		                     ->whereDate('start_date','<=' , $start)
+							 ->whereDate('end_date','>=', $end)->count();
             }
+			
+			$qty = convert_date_to_qty($start,$end)	;
+			
             if($countProducts>0){
                 $message = "Produk sudah ada dikeranjang";
                 return response()->json(['status'=>false,'message'=>$message]);
@@ -100,10 +112,10 @@ class ProductController extends Controller
             }
             // $item->user_id = $user_id;
             $item->product_id = $data['product_id'];
-            $item->start_date = $date_booking;
-            $item->end_date = $date_booking;
-            $item->customer_type = $data['customer_type'];
-            $item->qty = $data['qty'];
+            $item->start_date = $start;
+            $item->end_date = $end;
+            $item->customer_type = $customer_type;
+            $item->qty = $qty;
             $item->save();
             $message = "Produk berhasil ditambahkan";
             return response()->json(['status'=>true,'message'=>$message]);

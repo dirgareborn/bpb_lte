@@ -130,6 +130,11 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 		
         // Customer
         Route::get('customers', 'UserController@users');
+		
+		// Orders 
+		Route::get('/orders','OrderController@orders');
+		Route::get('/order-details/{id}','OrderController@orderDetails');
+		Route::get('/edit-order/{id}','OrderController@edit');
     });
 });
 

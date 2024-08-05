@@ -37,9 +37,9 @@ $(document).ready(function(){
             success:function(resp){
                 // alert(resp);
                 if(resp['status'==true]){
-                    $('.print-error-msg').show();
-                    $('.print-error-msg').delay(3000).fadeOut('slow');
-                    $('.print-error-msg').html("<div class='alert alert-success error-message' role='alert'>"+resp['message']+"<button type='button' class='btn-xs btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>");
+                    $('.print-success-msg').show();
+                    $('.print-success-msg').delay(3000).fadeOut('slow');
+                    $('.print-success-msg').html("<div class='alert alert-success success-message' role='alert'>"+resp['message']+"<button type='button' class='btn-xs btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>");
 				}else{
                     $('.print-error-msg').show();
                     $('.print-error-msg').delay(3000).fadeOut('slow');
