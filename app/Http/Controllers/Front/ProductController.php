@@ -201,7 +201,7 @@ class ProductController extends Controller
 					'view'=>(String)View::make('front.products.cart_items')->with(compact('getCartItems')),
 				]);
 				}else{
-					if($couponDetails->amount_type=="Fixed"){
+					if($couponDetails->amount_type=="fixed"){
 						$couponAmount = $couponDetails->amount;
 					}else{
 						$couponAmount = $total_amount * ($couponDetails->amount/100);
