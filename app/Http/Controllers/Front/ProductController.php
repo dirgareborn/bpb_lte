@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
 class ProductController extends Controller
 {
     public function listing(){
@@ -92,7 +92,12 @@ class ProductController extends Controller
             // Check Product if already 
             if(Auth::check()){
                 $user_id = Auth::user()->id;
+				if(!empty(Auth::user()->customer_type)){
 				$customer_type = Auth::user()->customer_type;
+				}else{
+				$customer_type = "umum";
+				}
+				
                 $countProducts = Cart::where('product_id',$data['product_id'])
 		                     ->whereDate('start_date','<=' , $start)
 							 ->whereDate('end_date','>=', $end)->count();
@@ -316,7 +321,20 @@ class ProductController extends Controller
 			}
 			$order = Session::put('order_id',$order_id);
 			DB::commit();
-			
+			if($data['payment_gateway']=="cash" || $data['payment_gateway']=="transfer"){
+				$orderDetails = Order::with('orders_products','users')->where('id',$order_id)->first()->toArray();
+				$email = Auth::user()->email;
+				$messageData = [
+					'email' => $email,
+					'name' => Auth::user()->name,
+					'order_id'=>$order_id,
+					'orderDetails' => 'orderDetails'
+				];
+				//dd($orderDetails);
+				Mail::send('front.orders.email',$messageData, function($message)use($email){
+					$message->to($email)->subject('Pesanan - Mallbisnisunm.com');
+				});
+			}
 			return redirect('/order-success');
 		}
 		

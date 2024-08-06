@@ -1,5 +1,24 @@
 @extends('admin.layout.app')
+@push('style')
+<style>
+.form-attribute{width:20%;
+padding:.375rem .75rem;
+font-size:1rem;
+line-height:1.5;
+color:#495057;
+background-color:#fff;
+background-clip:padding-box;
+border:1px solid #ced4da;
+border-radius:.25rem;
+transition:border-color 
+.15s ease-in-out,box-shadow .
+15s ease-in-out}
+.form-attribute:
+focus{color:#495057;background-color:#fff;border-color:#80bdff;outline:0;box-shadow:0 0 0 .2rem rgba(0,123,255,.25)}.form-control::-webkit-input-placeholder{color:#6c757d;opacity:1}.form-control::-moz-placeholder{color:#6c757d;opacity:1}.form-control:-ms-input-placeholder{color:#6c757d;opacity:1}.form-control::-ms-input-placeholder{color:#6c757d;opacity:1}.form-control::placeholder{color:#6c757d;opacity:1}
 
+
+</style>
+@endpush
 @section('content')
 <!-- Main content -->
 <section class="content">
@@ -67,7 +86,7 @@
                   <option>---Pilih Type Diskon ---</option>
 				  <option value=""> Tidak ada diskon </option>
                   <option value="percent"> Persen (%) </option>
-				  <option value="nominal"> Nominal (Rp.) </option>
+				  <option value="fixed"> Nominal (Rp.) </option>
                 </select>
             </div>
 		</div>
@@ -78,25 +97,24 @@
 			</div>
 		</div>
 		
-		<div class="col-md-12">
-         <div class=" form-group field_wrapper">
-			<div>
-			<table class="attribute-list">
-			<tr>
-				<td><input type="text"  class="form-control" placeholder="Nama Detail Harga Produk" name="price_detail[]" value=""/></td>
-				<td><select class="form-control" id="customer_type" name="customer_type[]">
+	
+         <div class="col-md-12 field_wrapper">
+		<div>
+
+			<input type="text"  class="form-attribute" placeholder="Nama Detail Harga Produk" name="price_detail[]" value=""/>
+				<select class="form-attribute" id="customer_type" name="customer_type[]">
                   <option>---Pilih Type Pengguna ---</option>
 				  <option value="umum"> Umum </option>
 				  <option value="civitas"> Civitas </option>
 				  <option value="mahasiswa"> Mahasiswa </option>
-                </select></td>
-				<td><input class="form-control" type="text"  placeholder="Harga" name="price[]" value=""/></td>
-				<td><a href="javascript:void(0);" class="add_button btn btn-info" title="Add field">tambah baris</a></td>
-				</tr>
-				</table>
+                </select>
+	
+				<input class="form-attribute" type="text"  placeholder="Harga" name="price[]" value=""/>
+				<a href="javascript:void(0);" class="add_button btn btn-info btn-flat btn-sm" title="Add field">Tambah</a>
 			</div>
 		</div>
-		</div>
+
+		
 		<div class="col-md-6">
 		 <div class="form-group">
                 <label>Cover Produk</label>
@@ -182,11 +200,10 @@
 	$(document).ready(function() {
 	
 	// Add Product Attribute
-	var counter = 0;
     var maxField = 3; //Input fields increment limitation
     var addButton = $('.add_button'); //Add button selector
     var wrapper = $('.field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div><table><tr><td><input type="text" class="form-control" name="price_detail[]" value=""/></td><td><select class="form-control" id="customer_type" name="customer_type[]"><option>---Pilih Type Pengguna ---</option><option value="umum"> Umum </option><option value="civitas"> Civitas </option><option value="mahasiswa"> Mahasiswa </option></select></td><td><input class="form-control" type="text" name="price[]" value=""/></td><td><a href="javascript:void(0);" class="remove_button btn  btn-danger"> Hapus </a></td></tr></table></div>'; //New input field html 
+    var fieldHTML = '<div><input type="text" class="form-attribute" name="price_detail[]" value=""/> <select class="form-attribute" id="customer_type" name="customer_type[]"><option>---Pilih Type Pengguna ---</option><option value="umum"> Umum </option><option value="civitas"> Civitas </option><option value="mahasiswa"> Mahasiswa </option></select> <input class="form-attribute" type="text" name="price[]" value=""/> <a href="javascript:void(0);" class="remove_button btn  btn-danger btn-flat btn-sm"> Hapus </a></div>'; //New input field html 
     var x = 1; //Initial field counter is 1
     
     // Once add button is clicked
@@ -207,10 +224,6 @@
         x--; //Decrease field counter
     });
 	
-	$("table.attribute-list").on("click", ".remove_button", function(event) {
-			$(this).closest("tr").remove();
-			counter -= 1
-		});
 });
 </script>
 @include('admin.partials._swalDeleteConfirm')

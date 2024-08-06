@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="{{ url('admin/plugins/jqvmap/jqvmap.min.css') }}">
 
     <link rel="stylesheet" href="{{ url('admin/css/adminlte.min.css?v=3.2.0') }}">
-    
+    @stack('style')
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed">
