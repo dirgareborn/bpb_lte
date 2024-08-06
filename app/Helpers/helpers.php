@@ -202,21 +202,21 @@ function semester()
 
 function is_img($url = null, $img = '/img/no-image.png')
 {
-    return asset($url != null && file_exists(public_path($url)) ? $url : $img);
+    return asset($url != null && file_exists($url) ? $url : $img);
 }
 
-function is_logo($url = '', $file = '/img/logo.png')
+function is_logo($url = '', $file = '/logo.png')
 {
     return is_img($url, $file);
 }
 
-function is_user($url = null, $sex = 1, $pengurus = null)
+function is_user($url = null)
 {
-    if ($url && !$pengurus) {
-        $url = 'storage/users/foto/' . $url;
+    if ($url) {
+        $url = 'front/images/customers/' . $url;
     }
 
-    $default = 'img/users/' . (($sex == 2) ? 'wuser.png' : 'kuser.png');
+    $default = 'front/img/default-user.png';
 
     return is_img($url, $default);
 }

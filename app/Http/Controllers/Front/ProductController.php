@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Models\AccountBank;
 class ProductController extends Controller
 {
     public function listing(){
@@ -323,15 +324,17 @@ class ProductController extends Controller
 			DB::commit();
 			if($data['payment_gateway']=="cash" || $data['payment_gateway']=="transfer"){
 				$orderDetails = Order::with('orders_products','users')->where('id',$order_id)->first()->toArray();
+				$banks = AccountBank::where('status', 1)->get()->toArray();
 				$email = Auth::user()->email;
 				$messageData = [
 					'email' => $email,
 					'name' => Auth::user()->name,
 					'order_id'=>$order_id,
-					'orderDetails' => 'orderDetails'
+					'orderDetails' => $orderDetails,
+					'banks'=> $banks
 				];
-				//dd($orderDetails);
-				Mail::send('front.orders.email',$messageData, function($message)use($email){
+				// dd($orderDetails);
+				Mail::send('emails.order',$messageData, function($message)use($email){
 					$message->to($email)->subject('Pesanan - Mallbisnisunm.com');
 				});
 			}

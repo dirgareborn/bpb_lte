@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\Banner;
 use App\Models\ProfilWebsite;
 use App\Models\Product;
-
+use App\Models\Testimonial;
 class IndexController extends Controller
 {
     public function index(){
         $homeSliderBanners = Banner::where('type','Slider')->where('status',1)->orderBy('sort','ASC')->get()->toArray();
-        $products = Product::with('images','locations','categories')->where('status',1)->orderBy('id','Desc')->limit(12)->get()->toArray();
+        $products = Product::with('images','locations','categories')->where('status',1)->orderBy('id','Desc')->get()->toArray();
+        $getTestimonial = Testimonial::with('user')->where('status',1)->get()->toArray();
+        // dd($getTestimonial);
         // dd($products);
-        return view('front.index')->with(compact('homeSliderBanners','products'));
+        return view('front.index')->with(compact('homeSliderBanners','products','getTestimonial'));
     }
 
     public function visiMisi(){

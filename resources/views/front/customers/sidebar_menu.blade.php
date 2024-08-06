@@ -11,6 +11,11 @@
 		Update Password
 		</a>
 	  </li>
+	  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {{ request()->is('testimonial') ? 'bg-primary ' : '' }}">
+		<a class="nav-link {{ request()->is('testimonial') ? 'text-white ' : '' }}" href="{{ url('/testimonial') }}">
+		Testimonial
+		</a>
+	  </li>
 	  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {{ request()->is('daftar-pesanan') ? 'bg-primary ' : '' }}">
 		<a class="nav-link {{ request()->is('daftar-pesanan') ? 'text-white ' : '' }}" href="{{ url('/daftar-pesanan') }}">
 		Daftar Pesanan

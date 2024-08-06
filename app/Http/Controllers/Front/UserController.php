@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Testimonial;
 use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -130,4 +131,39 @@ class UserController extends Controller
 		}
        // return view('front.customers.profil');
     }
+
+    public function testimonial(Request $request){
+        $getTestimonial = Testimonial::select('description')->where('user_id',Auth::user()->id)->first();
+        // dd($getTestimonial->description);
+        if($request->isMethod('post')){
+            $data = $request->all();
+            //check Testimonial
+            $rules = [
+                'description' => 'required'
+            ];
+
+            $customMessages = [
+                'description.required' => 'Testimonial harus diisi',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+            $user_id = Auth::user()->id;
+            
+            $testimonial = Testimonial::where('user_id', $user_id)->get()->count();
+            if($testimonial>=1){
+                Testimonial::where('user_id', $user_id)->update(['description'=> $data['description']]);
+                return redirect()->back()->with('success_message','Testimonial anda berhasil diperbarui!');
+            }else{
+                $testimonial = new Testimonial;
+                $testimonial->user_id = $user_id;
+                $testimonial->description = $data['description'];
+                $testimonial->status = 0;
+                $testimonial->save();
+                return redirect()->back()->with('success_message','Testimonial anda berhasil dibuat!');
+            }
+        }
+        return view('front.customers.testimonial',compact('getTestimonial'));
+    }
+
+    
 }

@@ -16,7 +16,9 @@ $totalCartItems = totalCartItems();
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto">
+                
                 <a href="{{ route('beranda')}}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
+                <!-- Profil Menu -->
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle {{ request()->is('visi-misi','struktur-organisasi','team') ? 'active' : '' }}" data-bs-toggle="dropdown">Profil</a>
                     <div class="dropdown-menu rounded-0 m-0">
@@ -25,18 +27,23 @@ $totalCartItems = totalCartItems();
                         <!-- <a href="{{url('team')}}" class="dropdown-item">Team</a> -->
                     </div>
                 </div>
-                <div class="nav-item dropdown" id="myDropdown">
-                    <a href="#" class="nav-link dropdown-toggle {{ request()->is('layanan/*') ? 'active' : '' }}" data-bs-toggle="dropdown">Layanan</a>
+                <!-- End Profil Menu -->
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle {{ request()->is('layanan/*') ? 'active' : '' }}">Layanan</a>
                     <ul class="dropdown-menu rounded-0 m-0">
                         @foreach ($MenuCategories as $category)
-                        <li><a class="dropdown-item" href="{{ url($category['url']) }}">{{ ucfirst($category['category_name']) }} @if(count($category['subcategories'])) &raquo;@endif</a></li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url($category['url']) }}">{{ ucfirst($category['category_name']) }} @if(count($category['subcategories'])) &raquo;@endif</a>
+                        </li>
                         @if(count($category['subcategories']))
-                        <ul class="dropdown-menu">
-                            @foreach ($category['subcategories'] as $subcategory)
-                            <!-- <li class="nav-item dropend"><a class="dropdown-item">&raquo;&raquo;{{ ucfirst($subcategory['category_name']) }}</a></li> -->
-                            @endforeach
-                        </ul>
-                        @endif
+                        <ul class="dropdown-menu rounded-0 m-0">
+                                @foreach ($category['subcategories'] as $subcategory)
+                                <li class="nav-item dropend">
+                                    <a class="dropdown-item">&raquo;&raquo;{{ ucfirst($subcategory['category_name']) }}</a>
+                                </li>
+                                @endforeach
+                            </ul>
+                            @endif
                         @endforeach
                     </ul>
                 </div>

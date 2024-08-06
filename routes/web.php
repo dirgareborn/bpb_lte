@@ -6,6 +6,7 @@ use App\Http\Controllers\Front\CategoryController;
 use App\Http\Controllers\Front\ProductController;
 use App\Http\Controllers\Front\UserController;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,6 +57,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 	Route::match(['get','post'],'update-password','UserController@updatePassword');
     Route::post('update-detail','UserController@updateDetail');
     Route::post('check-current-password','UserController@checkCurrentPassword');
+    Route::match(['get','post'],'testimonial','UserController@testimonial');
+
 	
 	// Page
     Route::get('/visi-misi', [IndexController::class,'visiMisi'])->name('visi-misi');
