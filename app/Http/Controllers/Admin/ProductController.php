@@ -20,14 +20,6 @@ use App\Models\Cart;
 class ProductController extends Controller
 {
 	
-	public function cart(){
-
-        // $getCartItems = Cart::getCartItems();
-        $getCartItems = getCartItemsDashboard();
-        // dd($getCartItems);
-        Route::get('coupons', 'CouponController@coupons');
-    }
-	
     /**
      * Display a listing of the resource.
      */
