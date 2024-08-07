@@ -35,5 +35,11 @@ class IndexController extends Controller
         $page_title       = 'Kontak Kami';
         return view('front.contact', compact('kontak','page_title'));
     }
+	
+	public function faq(){
+        //$kontak = ProfilWebsite::first();
+        $page_title       = 'Pertanyaan Umum';
+        return view('front.pages.faq', compact('page_title'));
+    }
     
 }

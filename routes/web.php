@@ -64,6 +64,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('/visi-misi', [IndexController::class,'visiMisi'])->name('visi-misi');
     Route::get('/kontak-kami', [IndexController::class,'kontak'])->name('kontak-kami');
     Route::get('/struktur-organisasi', [IndexController::class,'strukturOrganisasi'])->name('struktur-organisasi');
+    Route::get('/faq', [IndexController::class,'faq'])->name('faq');
 
     Route::post('newsletter/store','App\Http\Controllers\Admin\NewsletterController@store');
 });
