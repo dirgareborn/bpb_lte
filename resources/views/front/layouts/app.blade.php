@@ -45,7 +45,7 @@
             </div>
         </div>
         <!-- Spinner End -->
-        @include('front.partials.navbar')
+        @include('front.partials.navbars')
         @if(Route::is('beranda'))
         @include('front.partials.slider') 
         @include('front.partials.search')

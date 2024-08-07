@@ -7,7 +7,7 @@ $totalCartItems = totalCartItems();
     <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
         <a href="{{ route('beranda')}}" class="navbar-brand d-flex align-items-center text-center">
             <div class="icon p-2 me-2">
-                <img class="img-fluid" src="{{url('logo.png') }}" alt="Icon" style="width: 30px; height: 30px;">
+                <img class="img-fluid" src="{{url('logo.webp') }}" alt="Icon" style="width: 30px; height: 30px;">
             </div>
             <h1 class="m-0 text-primary">BPB UNM</h1>
         </a>
