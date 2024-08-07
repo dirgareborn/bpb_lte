@@ -31,7 +31,7 @@ use App\Models\Product; ?>
 
 <table width="100%">
     <tr>
-    <td align="center"> <img src="./logo.png" alt="" width="100"/>
+    <td align="center"> <img src="./logo.webp" alt="" width="100"/>
     <h3>Badan Pengembangan Bisnis <br> Universitas Negeri Makassar</h3>
     </td>
     </tr>
@@ -101,7 +101,8 @@ Kode Pos  : {{$orderDetails['pincode'] }}
             <td colspan="3"></td>
             <td align="right">Subsidi (Diskon) </td>
             <td align="right">
-                @currency($orderDetails['coupon_amount'])
+			
+               
                 </td>
         </tr>
         <tr>

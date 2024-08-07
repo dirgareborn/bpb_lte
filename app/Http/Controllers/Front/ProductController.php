@@ -333,10 +333,11 @@ class ProductController extends Controller
 					'orderDetails' => $orderDetails,
 					'banks'=> $banks
 				];
-				// dd($orderDetails);
+				//dd($orderDetails);
 				Mail::send('emails.order',$messageData, function($message)use($email){
 					$message->to($email)->subject('Pesanan - Mallbisnisunm.com');
 				});
+				
 			}
 			return redirect('/order-success');
 		}
@@ -344,8 +345,7 @@ class ProductController extends Controller
 		//dd($data);
 		return view('front.products.checkout')->with(['getCartItems'=>$getCartItems,'snap_token'=>$snap_token]);
 	}
-    public function deleteItem($id)
-    {   
+    public function deleteItem($id){   
         if(Auth::check()){
             $user_id = Auth::user()->id;
         }else{

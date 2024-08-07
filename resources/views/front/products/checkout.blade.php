@@ -9,7 +9,7 @@ use App\Models\Product; ?>
 <div class="container">
     <main>
         <div class="container-fluid py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="/logo.png" alt="" width="72" height="72">
+            <img class="d-block mx-auto mb-4" src="/logo.webp" alt="" width="72" height="72">
             <h2>Formulir Pembayaran</h2>
             <p class="lead">
 Sebelum Bapak/Ibu Melakukan pembayaran, Pastikan semua data yang diinput sudah benar! </p>
@@ -72,15 +72,6 @@ Sebelum Bapak/Ibu Melakukan pembayaran, Pastikan semua data yang diinput sudah b
                             </strong> 
                     </li>
                 </ul>
-               <!-- <div class="alert alert-danger" style="display: none;"></div>
-                    <div class="alert alert-success"  style="display: none;"></div>
-                <form class="card p-2" action="javascript:;">
-                    <div class="input-group">
-                        <input type="text" class="couponCode form-control" id="code" name="coupon_code" placeholder="Kode Subsidi / Diskon">
-                        <button @if(Auth::check()) user="1" @endif type="submit" id="ApplyCoupon" class="btn btn-secondary">Pakai</button>
-                    </div>
-                </form>
-				-->
             </div>
             <div class="col-md-6 col-lg-6">
                 <h4 class="mb-3">Data Penagihan</h4>

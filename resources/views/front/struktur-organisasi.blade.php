@@ -2,9 +2,9 @@
 @section('content')
  <!-- Header Start -->
  <div class="container-fluid header bg-white p-0">
-            <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
-                <div class="col-md-6 p-5 mt-lg-5">
-                    <h1 class="display-5 animated fadeIn mb-4">{{$page_title}}</h1> 
+    <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
+        <div class="col-md-6 p-5 mt-lg-5">
+            <h1 class="display-5 animated fadeIn mb-4">{{$page_title}}</h1> 
                         <nav aria-label="breadcrumb animated fadeIn">
                         <ol class="breadcrumb text-uppercase">
                         @for($i = 1; $i <= count(Request::segments()); $i++)

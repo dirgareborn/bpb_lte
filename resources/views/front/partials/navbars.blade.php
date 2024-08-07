@@ -4,12 +4,7 @@
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Toggle button -->
-    <a href="{{ route('beranda')}}" class="navbar-brand d-flex align-items-center text-center">
-            <div class="icon p-2 me-2">
-                <img class="img-fluid" src="{{url('logo.webp') }}" alt="Icon" style="width: 30px; height: 30px;">
-            </div>
-            <h1 class="m-0 text-primary">BPB UNM</h1>
-        </a>
+
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>

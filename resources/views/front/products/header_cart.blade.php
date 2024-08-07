@@ -4,14 +4,17 @@ $getCartItems = getCartItems();
 ?>
 
 <div class="nav-item nav-link dropdown" id="appendMiniCartItems">
-    <a href="{{ url('cart') }}" class="sdropdown-toggle" data-toggle="dropdown"><i class="fas fa-shopping-cart "></i><span style="margin-left:10px" class="position-absolute  start-100 translate-middle badge rounded-pill bg-danger">{{ $totalCartItems }}</span></a>
+<!-- Icon -->
+      <a class="text-reset me-3" href="{{ url('cart') }}">
+        <i class="fas fa-shopping-cart"></i>
+	<span class="badge rounded-pill badge-notification bg-danger">{{ $totalCartItems }}</span>
+      </a>
     <ul class="dropdown-menu rounded-0 m-0" role="menu">
         @php $total_price = 0 @endphp
         @foreach($getCartItems as $item)
         <?php
         $getAttributePrice = Product::getAttributePrice($item['product_id'], $item['customer_type']);
         ?>
-
         <li class="dropdown-item">
             <span class="item">
                 <span class="item-left">
@@ -35,5 +38,4 @@ $getCartItems = getCartItems();
         <li class="divider"></li>
         <li class="dropdown-item"><a class="text-center" href="{{ url('cart') }}">Lihat Keranjang</a></li>
     </ul>
-    </li>
 </div>
