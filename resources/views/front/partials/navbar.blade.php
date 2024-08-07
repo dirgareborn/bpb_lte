@@ -48,8 +48,6 @@ $totalCartItems = totalCartItems();
                     </ul>
                 </div>
                 <a href="{{ url('kontak-kami') }}" class="nav-item nav-link {{ request()->is('kontak-kami') ? 'active' : '' }}">Kontak</a>
-                <a class="nav-item nav-link">|</a>
-				@include('front.products.header_cart')
                 @guest
                     @if (Route::has('login'))
                     <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
@@ -78,6 +76,7 @@ $totalCartItems = totalCartItems();
                                 </div>
                             </li>
                 @endguest
+				@include('front.products.header_cart')
             </div>
         </div>
     </nav>
