@@ -57,11 +57,16 @@ $totalCartItems = totalCartItems();
                     @endif
                     @else
                     <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                  <i class="fa fa-user"></i> 
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class=" nav-link dropdown-toggle d-flex align-items-center hidden-arrow" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false" >
+                                    <img
+                                        src="{{ is_user(Auth::user()->image)}}"
+                                        class="rounded-circle"
+                                        height="25"
+                                        alt="user image"
+                                        loading="lazy"
+                                    />
+                                    </a>
+                                <div class="dropdown-menu dropdown-menu-end rounded-0 m-0" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
