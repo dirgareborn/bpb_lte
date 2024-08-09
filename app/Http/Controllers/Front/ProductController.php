@@ -21,10 +21,14 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Models\AccountBank;
+use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     public function listing(){
-        $url = Route::getFacadeRoot()->current()->uri;
+		$str = Route::getFacadeRoot()->current()->uri;
+		$url = Str::replace('kategori/', '', $str);
+		// dd($url);
+
         $page_title = 'KATEGORI';
         $categoryCount = Category::where(['url'=>$url,'status'=>1])->count();
         // dd($categoryCount);
@@ -52,8 +56,9 @@ class ProductController extends Controller
             abort(404);
         }
     }
-    public function detail($id){
-        $productDetails = Product::with(['images','attributes','categories'])->find($id)->toArray();
+    public function detail($url){
+        $productDetails = Product::with(['images','attributes','categories'])->whereUrl($url)->first()->toArray();
+		// dd($productDetails);
         return view('front.products.detail')->with(compact('productDetails'));
     }
     public function addToCart(Request $request){

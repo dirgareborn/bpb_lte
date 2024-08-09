@@ -17,8 +17,8 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Link</h5>
-                        @foreach($QuickLinks as $links)
-                        <a class="btn btn-link text-white-50" href="{{ $links['url']}}">{{ $links['title']}}</a>
+                        @foreach($QuickLinks as $page)
+                        <a class="btn btn-link text-white-50" href="{{ url($page['url']) }}">{{ $page['title']}}</a>
                         @endforeach
                     </div>
                     <div class="col-lg-3 col-md-6">

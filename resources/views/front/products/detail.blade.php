@@ -204,7 +204,7 @@
 						</ul>
 					</div>
 					<div class="details col-md-6">
-						<h3 class="product-title">#1 {{ $productDetails['product_name']}}</h3>
+						<h3 class="product-title">#1 {{ $productDetails['product_name'] }}</h3>
 						<div class="rating">
 							<div class="stars">
 								<span class="fa fa-star checked"></span>

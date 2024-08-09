@@ -33,7 +33,7 @@ $totalCartItems = totalCartItems();
                     <ul class="dropdown-menu rounded-0 m-0">
                         @foreach ($MenuCategories as $category)
                         <li>
-                            <a class="dropdown-item" href="{{ url($category['url']) }}">{{ ucfirst($category['category_name']) }} @if(count($category['subcategories'])) &raquo;@endif</a>
+                            <a class="dropdown-item" href="{{ url('kategori/'.$category['url']) }}">{{ ucfirst($category['category_name']) }} @if(count($category['subcategories'])) &raquo;@endif</a>
                         </li>
                         @if(count($category['subcategories']))
                         <ul class="dropdown-menu rounded-0 m-0">

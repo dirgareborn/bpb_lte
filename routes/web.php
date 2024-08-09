@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\Front\CategoryController;
 use App\Http\Controllers\Front\ProductController;
+use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\UserController;
 use App\Models\Category;
+use App\Models\CmsPage;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -23,17 +25,18 @@ use Illuminate\Support\Facades\Auth;
 // });
 
 // Front Route
+
 Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('/', [IndexController::class,'index'])->name('beranda');
 
     // Listing Categories Route
    $catUrls = Category::select('url')->where('status',1)->get()->pluck('url');
     foreach($catUrls as $key => $url){
-        Route::get($url,'ProductController@listing');
+        Route::get('kategori/'. $url,'ProductController@listing');
     } 
 
     //Product Detail
-    Route::get('product/{id}','ProductController@detail');
+    Route::get('produk/{url}','ProductController@detail');
 
     // Product Search
     Route::get('search-products','ProductController@listing');
@@ -66,7 +69,11 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('/struktur-organisasi', [IndexController::class,'strukturOrganisasi'])->name('struktur-organisasi');
     Route::get('/faq', [IndexController::class,'faq'])->name('faq');
 
-    Route::post('newsletter/store','App\Http\Controllers\Admin\NewsletterController@store');
+     // Listing Categories Route
+    $catUrls = CmsPage::select('url')->where('status','ready')->get()->pluck('url');
+    foreach($catUrls as $key => $url){
+        Route::get($url,'PageController@show');
+    } 
 });
 Auth::routes();
 // User Route
@@ -74,6 +81,7 @@ Route::get('/akun', [UserController::class, 'index'])->name('akun');
 
 // Admin Route
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
+    Route::post('newsletter/store','App\Http\Controllers\Admin\NewsletterController@store');
     Route::match(['get','post'],'login','AdminController@login');
     Route::group(['middleware'=>['admin']], function(){
         Route::get('dashboard','AdminController@dashboard');

@@ -30,7 +30,7 @@
                                 @if(isset($product['images'][0]['image']) && !empty($product['images'][0]['image']))
                                 <a href=""><img class="img-fluid" src="{{ asset('front/images/products/'.$product['product_image'])}}" alt=""></a>
                                 @else
-                                <a href=""><img class="img-fluid" src="img/property-1.jpg" alt=""></a>
+                                <a href=""><img class="img-fluid" src="front/img/property-1.jpg" alt=""></a>
                                 @endif
                                 <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Di Sewakan</div>
                                 <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ $product['categories']['category_name'] }}</div>
@@ -38,7 +38,7 @@
                             </div>
                             <div class="p-4 pb-0">
                                 <h5 class="text-primary mb-3">@currency($product['product_price'])</h5>
-                                <a class="d-block h5 mb-2" href="{{url('product/'. $product['id'])}}">{{ $product['product_name']}}</a>
+                                <a class="d-block h5 mb-2" href="{{url('produk/'. $product['url'])}}">{{ $product['product_name']}}</a>
                                 <p><i class="fa fa-map-marker-alt text-primary me-2"></i> <a target="_blank" href="{{ $product['locations']['maps']}}">{{ $product['locations']['name'] }}</a></p>
                             </div>
                         </div>
