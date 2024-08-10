@@ -5,6 +5,13 @@
 @endpush
 @section('content')
 <!-- Property List Start -->
+<div class="container-fluid header bg-white p-0">
+    <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
+        <div class="col-md-6 p-5 mt-lg-5">
+            
+        </div>
+    </div>
+</div>
 <div class="container-xxl py-5">
     <div class="container" id="appendCartItems">
 		@include('admin.partials.alert')

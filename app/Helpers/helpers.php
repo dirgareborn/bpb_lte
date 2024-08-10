@@ -200,14 +200,25 @@ function semester()
 }
 
 
-function is_img($url = null, $img = '/img/no-image.png')
+function is_img($url = null, $img = '/front/img/no-image.webp')
 {
     return asset($url != null && file_exists($url) ? $url : $img);
 }
 
-function is_logo($url = '', $file = '/logo.png')
+function is_logo($url = '', $file = '/logo.webp')
 {
     return is_img($url, $file);
+}
+
+function is_product($url = null)
+{
+    if ($url) {
+        $url = 'front/images/products/' . $url;
+    }
+
+    $default = '/front/img/no-image.webp';
+
+    return is_img($url, $default);
 }
 
 function is_user($url = null)

@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\Front\CategoryController;
 use App\Http\Controllers\Front\ProductController;
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\UserController;
 use App\Models\Category;
 use App\Models\CmsPage;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -20,23 +21,40 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+ Route::get('/sitemap', function () {
+    $sitemap = Sitemap::create()
+		->add(Url::create('/'))
+		->add(Url::create('/visi-misi'))
+		->add(Url::create('/struktur-organisasi'))
+		->add(Url::create('/kontak-kami'))
+		->add(Url::create('/register'))
+		->add(Url::create('/login'))
+		->add(Url::create('/tentang-kami'));
+		
+		Category::all()->each(function(Category $category) use ($sitemap){
+			$sitemap->add(Url::create('/kategori/{$category->url}'));
+		});
+		$sitemap->writeToFile(public_path('sitemap.xml'));
+		
+		return 'susses';
+});
 
 // Front Route
 
 Route::namespace('App\Http\Controllers\Front')->group(function(){
-    Route::get('/', [IndexController::class,'index'])->name('beranda');
+    Route::get('/', [PageController::class,'index'])->name('beranda');
 
     // Listing Categories Route
    $catUrls = Category::select('url')->where('status',1)->get()->pluck('url');
     foreach($catUrls as $key => $url){
         Route::get('kategori/'. $url,'ProductController@listing');
     } 
-
+	
+	//Category all
+    Route::get('kategori', 'CategoryController@category');
+	
     //Product Detail
-    Route::get('produk/{url}','ProductController@detail');
+    Route::get('kategori/{category}/{url}','ProductController@detail');
 
     // Product Search
     Route::get('search-products','ProductController@listing');
@@ -64,12 +82,12 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 
 	
 	// Page
-    Route::get('/visi-misi', [IndexController::class,'visiMisi'])->name('visi-misi');
-    Route::get('/kontak-kami', [IndexController::class,'kontak'])->name('kontak-kami');
-    Route::get('/struktur-organisasi', [IndexController::class,'strukturOrganisasi'])->name('struktur-organisasi');
-    Route::get('/faq', [IndexController::class,'faq'])->name('faq');
+    Route::get('/visi-misi', [PageController::class,'visiMisi'])->name('visi-misi');
+    Route::get('/kontak-kami', [PageController::class,'kontak'])->name('kontak-kami');
+    Route::get('/struktur-organisasi', [PageController::class,'strukturOrganisasi'])->name('struktur-organisasi');
+    Route::get('/faq', [PageController::class,'faq'])->name('faq');
 
-     // Listing Categories Route
+     // Listing Page Route
     $catUrls = CmsPage::select('url')->where('status','ready')->get()->pluck('url');
     foreach($catUrls as $key => $url){
         Route::get($url,'PageController@show');
@@ -84,7 +102,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::post('newsletter/store','App\Http\Controllers\Admin\NewsletterController@store');
     Route::match(['get','post'],'login','AdminController@login');
     Route::group(['middleware'=>['admin']], function(){
-        Route::get('dashboard','AdminController@dashboard');
+        Route::get('dashboard','DashboardController@dashboard')->name('admin.dashboard');
         Route::match(['get','post'],'update-password','AdminController@updatePassword');
         Route::match(['get','post'],'update-detail','AdminController@updateDetail');
         Route::post('check-current-password','AdminController@checkCurrentPassword');

@@ -116,7 +116,7 @@ Sebelum Bapak/Ibu Melakukan pembayaran, Pastikan semua data yang diinput sudah b
                         </div>
 
                         <div class="col-md-4">
-                            <label for="pincode" class="form-label">Kode Pin</label>
+                            <label for="pincode" class="form-label">Kode Pos</label>
                             <input type="text" class="form-control" id="pincode" name="pincode" placeholder="" Value="{{ Auth::user()->pincode ?? '' }}" >
                             <div class="invalid-feedback">
                                 Zip code required.

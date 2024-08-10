@@ -29,7 +29,7 @@
     @stack('style')
 </head>
 
-<body class="hold-transition dark-mode sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
         <div class="preloader flex-column justify-content-center align-items-center">
@@ -53,7 +53,7 @@
         $.widget.bridge('uibutton', $.ui.button)
     </script>
     <script src="{{ url('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url('admin/plugins/chart.js') }}/Chart.min.js') }}"></script>
+    <script src="{{ url('admin/plugins/chart.js/Chart.min.js') }}"></script>
     <script src="{{ url('admin/plugins/sparklines/sparkline.js') }}"></script>
     <script src="{{ url('admin/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
     <script src="{{ url('admin/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>

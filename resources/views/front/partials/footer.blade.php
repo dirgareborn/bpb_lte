@@ -26,7 +26,7 @@
                         <div class="row g-2 pt-2">
                             @foreach($galery as $g)
                             <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="{{ asset('front/images/products/'. $g['product_image']) }}" alt="{{ $g['url'] }}">
+                                <img class="img-fluid rounded bg-light p-1" src="{{ is_product($g['product_image']) }}" alt="{{ $g['url'] }}">
                             </div>
                             @endforeach
                         </div>

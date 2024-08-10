@@ -3,18 +3,30 @@
 
 <head>
     <meta charset="utf-8">
-    <title>BPB - Universitas Negeri Makassar
-        
-    
-    </title>
-    <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
+	<meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
+    <title>BPB - Universitas Negeri Makassar</title>
+
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-
+	<meta property="og:locale" content="id_ID">
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="{{ Request::url() }}">
+	<meta property="og:site_name" content="{{ \URL::to('') }}">
+	<meta property="og:title" content="{{ $page_title ?? '' }}">
+	<meta property="og:description" content="{{ $page_description ?? 'Website Resmi BPB UNM' }}. ">
+	<meta property="og:image" content="{{ is_logo($page_image ?? '') }}?auto=format&amp;fit=max&amp;w=1200">
+	<meta property="og:image:alt" content="{{ is_logo($page_image ?? '') }}">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="{{ $page_title ?? '' }}">
+	<meta name="twitter:description" content="{{ $page_description ?? 'Website Resmi BPB UNM' }}. ">
+	<meta name="twitter:image" content="{{ is_logo($page_image ?? '') }}?auto=format&amp;fit=max&amp;w=1200">
+	<link rel="alternate" href="/feed.xml" type="application/atom+xml" data-title="{{ Request::url() }}">
+	<meta name="facebook-domain-verification" content="w5e39xmuhdt35pjpezg5pkif7f501x" />
     <!-- Favicon -->
-    <link href="{{url('favicon.ico') }}" rel="icon">
-
+	<link rel="icon" type="image/png" href="{{url('favicon.ico') }}"/>
+	<link rel="mask-icon" href="{{url('favicon.ico') }}" color="#5bbad5">
+   
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,6 +49,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />
     <!-- Scripts -->
      @stack('style')
+	  @laravelPWA
 </head>
 
 <body>
@@ -55,7 +68,6 @@
         @endif  
         @yield('content')
         @if(Route::is('beranda'))
-        @include('front.IndexCategory')
         @include('front.partials.testimonial')
         @endif
         @include('front.partials.footer')

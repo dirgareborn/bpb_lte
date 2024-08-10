@@ -36,7 +36,7 @@ class ProductController extends Controller
             // get Category Details
             $categoryDetails = Category::categoryDetails($url);
             // Get Category Product
-            // dd($categoryDetails);
+            //dd($categoryDetails['url']);
             $categoryProducts = Product::with('images')->where('category_id',$categoryDetails['catIds'])
             ->where('status',1)->orderBy('id','Desc')->simplePaginate();
 
@@ -45,7 +45,7 @@ class ProductController extends Controller
             $search = $_GET['query'];
 			$categoryDetails['category_name'] = $search;
 
-			$categoryProducts = Product::with(['images'])->where(function($query)use($search){
+			$categoryProducts = Product::with(['images','categories'])->where(function($query)use($search){
 				$query->where('product_name','like','%'.$search.'%');
 				$query->orwhere('product_description','like','%'.$search.'%');
 			})->where('status',1);
@@ -56,9 +56,10 @@ class ProductController extends Controller
             abort(404);
         }
     }
-    public function detail($url){
+    public function detail($category, $url){
         $productDetails = Product::with(['images','attributes','categories'])->whereUrl($url)->first()->toArray();
-		// dd($productDetails);
+		//dd($productDetails->id);
+		
         return view('front.products.detail')->with(compact('productDetails'));
     }
     public function addToCart(Request $request){
@@ -252,7 +253,6 @@ class ProductController extends Controller
 		
 		$getCartItems = getCartItems();
 		$snap_token = 0;
-		
 			
 		if(count($getCartItems)==0){
 			$message = "Keranjang Masih Kosong, Booking sebelum melakukan checkout!";
@@ -357,7 +357,8 @@ class ProductController extends Controller
             $user_id = 0;
         }
         $session_id = Session::get('session_id');
-        $resul =  Cart::where('id',$id)->where('session_id',$session_id)->orWhere('user_id',$user_id)->delete();
+        $resul =  Cart::where('id',$id)->delete();
+       // $resul =  Cart::where('id',$id)->where('session_id',$session_id)->where('user_id',$user_id)->delete();
 
         if($resul){
 

@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
             App\Model\Coupon::whereDate('expired_date', now()->toDateString())
 			->update(['status'=>0]);
         })->daily();
+		
+		$schedule->command('sitemap:generate')->daily();
     }
 
     /**

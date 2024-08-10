@@ -165,7 +165,7 @@ class ProductController extends Controller
 					$product->final_price = $data['product_price']-$data['product_discount'];
 				}else{
 					$getCategoryDiscount = Category::select('category_discount')->where('id', $data['category_id'])->first();
-					if($getCategoryDiscount->category_discount = 0){
+					if($getCategoryDiscount->category_discount = '0,0'){
 						$product->discount_type = "";
 						$product->final_price = $data['product_price'];
 					}else{

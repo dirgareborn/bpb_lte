@@ -18,18 +18,7 @@ use Illuminate\Support\Str;
 class AdminController extends Controller
 {
     
-    public function dashboard(){
-       Session::put('page','dashboard');
-       $categoryCount = Category::get()->count();
-       $productCount = Product::get()->count();
-       $adminCount = Admin::get()->count();
-       $customerCount = User::get()->count();
-       
-       
-    //    echo "<pre>" ; print_r($categoryCount) ; die;
-        return view('admin.dashboard', compact('categoryCount','productCount','adminCount','customerCount'));
-    }
-
+    
     public function login(Request $request){
         if($request->isMethod('post')){
             $data = $request->all();
@@ -59,7 +48,7 @@ class AdminController extends Controller
                         setcookie("password","");
                     }
 
-                    return view('admin.dashboard');
+                    return redirect()->route('admin.dashboard');
                 }else{
                     return redirect()->back()->with("error_message","Invalid Email or Password!");
                 }

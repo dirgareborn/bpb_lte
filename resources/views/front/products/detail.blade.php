@@ -5,6 +5,18 @@
   max-width: 100%; }
 
 .preview {
+@media (min-width:320px)  {  
+.card {
+	padding: 1em;
+margin:10px 10px;
+}
+ }
+@media (min-width:480px)  { 
+.card {
+	padding: 1em;
+margin:10px 10px;}
+ }
+ }
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -49,12 +61,13 @@
             animation-duration: .3s; }
 
 .card {
-  margin-top: 50px;
-  background: #eee;
-  padding: 3em;
+  margin:10px 50px;
+  background: #22222;
+  padding: 0em;
   line-height: 1.5em; }
 
 @media screen and (min-width: 997px) {
+
   .wrapper {
     display: -webkit-box;
     display: -webkit-flex;
@@ -119,25 +132,7 @@
     background: #b36800;
     color: #fff; }
 
-.not-available {
-  text-align: center;
-  line-height: 2em; }
-  .not-available:before {
-    font-family: fontawesome;
-    content: "\f00d";
-    color: #fff; }
 
-.orange {
-  background: #ff9f1a; }
-
-.green {
-  background: #85ad00; }
-
-.blue {
-  background: #0076ad; }
-
-.tooltip-inner {
-  padding: 1.3em; }
 
 @-webkit-keyframes opacity {
   0% {
@@ -157,7 +152,8 @@
   100% {
     opacity: 1;
     -webkit-transform: scale(1);
-            transform: scale(1); } }
+            transform: scale(1); } 
+}
 
 /*# sourceMappingURL=style.css.map */
 </style>
@@ -181,65 +177,60 @@
     </div>
 </div>
 
-<div class="container-xxl">
-		<div class="card animated fadeIn">
-			<div class="container">
-				<div class="row g-5 wow fadeIn" data-wow-delay="0.1s"">
-					<div class="preview col-md-6">
-            		
-						<div class="preview-pic tab-content" id="myTabContent">
-            @foreach($productDetails['images'] as $key => $image) 
-						  <div @if($key === 0) class="tab-pane fade show active" @else class="tab-pane" @endif id="pic-{{ $key }}">
-						  <img @if($key === 0) src="{{ asset('front/images/products/'. $productDetails['product_image']) }}" @else src="{{ asset('front/images/products/galery/'. $image['image']) }}" @endif/></div>
-              @endforeach
-						</div>
-						<ul class="preview-thumbnail nav nav-tabs" role="tablist">
-            @foreach($productDetails['images'] as $key => $image)
-						  <li @if($key === 0) class="active" @else class="" @endif>
-						  <a data-bs-target="#pic-{{$key}}" data-bs-toggle="tab">
-						  <img @if($key === 0) src="{{ asset('front/images/products/'. $productDetails['product_image']) }}" @else src="{{ asset('front/images/products/galery/'. $image['image']) }}" @endif/>
-						
-						  </a></li>
-              @endforeach
-						</ul>
+<div >
+	<div class="card rounded-0 border-0 animated fadeIn">
+		<div class="row g-5 wow fadeIn" data-wow-delay="0.1s"">
+			<div class="col-md-6 preview">
+				<div class="preview-pic tab-content" id="myTabContent">
+					@foreach($productDetails['images'] as $key => $image) 
+					<div @if($key == 0) class="tab-pane fade show active" @else class="tab-pane" @endif id="pic-{{ $key }}">
+						<img @if($key == 0) src="{{ asset('front/images/products/'. $productDetails['product_image']) }}" @else src="{{ asset('front/images/products/galery/'. $image['image']) }}" @endif/></div>
+					@endforeach
 					</div>
-					<div class="details col-md-6">
-						<h3 class="product-title">#1 {{ $productDetails['product_name'] }}</h3>
-						<div class="rating">
-							<div class="stars">
-								<span class="fa fa-star checked"></span>
-								<span class="fa fa-star checked"></span>
-								<span class="fa fa-star checked"></span>
-								<span class="fa fa-star"></span>
-								<span class="fa fa-star"></span>
-							</div>
-							<span class="review-no">41 reviews</span>
-						</div>
-						<p class="product-description">{{ $productDetails['product_description'] }}</p>
-            
-            
-            <h4 class="price">Harga: <span> @currency($productDetails['final_price'])</span></h4>
-              @if($productDetails['discount_type']!="") <br>
-				Diskon {{ $productDetails['product_discount']}} % 
-              <del>@currency($productDetails['product_price'])</del>
-              @endif
-						<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
-						<h5 class="sizes">Fasilitas : {!! $productDetails['product_facility'] !!}</h5>
-                        <!-- <form action="https://api.whatsapp.com/send?phone=6285343704359?text={{$productDetails['product_name']}}" method="POST"> -->
-                        <form id="addToCart" name="addToCart" action="javascript:;" method="POST">
+					<ul class="preview-thumbnail nav nav-tabs" role="tablist">
+					@foreach($productDetails['images'] as $key => $image)
+					    <li @if($key == 0) class="active" @else class="" @endif>
+						  <a data-bs-target="#pic-{{$key}}" data-bs-toggle="tab">
+						  <img @if($key == 0) src="{{ asset('front/images/products/'. $productDetails['product_image']) }}" @else src="{{ asset('front/images/products/galery/'. $image['image']) }}" @endif/>
+						  </a>
+						 </li>
+					@endforeach
+					</ul>
+		</div>
+		<div class="details col-md-6">
+			<h3 class="product-title">#1 {{ $productDetails['product_name'] }}</h3>
+			<div class="rating">
+				<div class="stars">
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star"></span>
+					<span class="fa fa-star"></span>
+				</div>
+					<span class="review-no">41 reviews</span>
+			</div>
+				<p class="product-description">{{ $productDetails['product_description'] }}</p>
+				<h5 class="price">Harga: <span> @currency($productDetails['final_price'])</span></h5>
+						  @if($productDetails['discount_type']!="") <br>
+							Diskon {{ $productDetails['product_discount']}} % 
+						  <del>@currency($productDetails['product_price'])</del>
+						  @endif
+				<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
+				<p class="sizes">Fasilitas : {!! $productDetails['product_facility'] !!}</p>
+                <form id="addToCart" name="addToCart" action="javascript:;" method="POST">
                         <!-- @csrf -->
-                        <input type="hidden" name="product_id" value="{{$productDetails['id']}}">
+                <input type="hidden" name="product_id" value="{{$productDetails['id']}}">
                     <div class="row g-2">
                         <div class="col-md-10">
                             <div class="row g-2">
                                 <div class="col-md-4">
-                                    <input type="text" id="start" name="start" class="date form-control border-0 py-3" placeholder="Mulai Tanggal ">
+                                    <input  id="start" name="start" class="date form-control py-3" placeholder="Mulai Tanggal ">
                                 </div>
 								<div class="col-md-4">
-                                    <input type="text" id="end" name="end" class="date form-control border-0 py-3" placeholder="Sampai Tanggal">
+                                    <input id="end" name="end" class="date form-control  py-3" placeholder="Sampai Tanggal">
                                 </div>
                                 <div class="col-md-4">
-                                  <select name="customer_type" class="form-select border-0 py-3">
+                                  <select name="customer_type" class="form-select py-3">
                                     <option selected value="umum">Penyewa</option>
                                     <option value="umum">Umum</option>
                                     <option value="civitas">Civitas</option>
@@ -258,26 +249,18 @@
                         <button class="btn btn-dark" type="button"><span class="fa fa-heart"></span></button>
                     </div>
                 </form>
-                 
-
                 <div class="print-error-msg"></div>
-				</div>
 				<div class="print-success-msg"></div>
-				</div>
-				</div>
 			</div>
 		</div>
-	</div>
+</div>
+</div>
     
-
-
-
 @endsection
 
 @push('scripts')
 <script type="text/javascript">
-    var array = ["05-07-2024", "08-07-2024", "17-07-2024", "21-07-2024"];
-
+    var array = ["05-08-2024", "08-08-2024", "17-08-2024", "21-07-2024"];
     $("input").datepicker({
         beforeShowDay: function(date) {
             var string = jQuery.datepicker.formatDate('dd-mm-yy', date);

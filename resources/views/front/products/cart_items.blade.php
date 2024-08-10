@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                <img src="{{ asset('front/images/products/'. $item['product']['product_image']) }}" width="300" class="img-fluid rounded-3" alt="Image">
+                                <img src="{{ is_product($item['product']['product_image']) }}" width="300" class="img-fluid rounded-3" alt="Image">
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
                                 <p class="lead fw-normal mb-2">{{ $item['product']['product_name']}}</p>
@@ -84,10 +84,13 @@
                                 @endif
                             </strong> 
                         </div>
-						
+						@if(Auth::check()) 
 						<form name="checkout" id="checkout" action="{{ url('checkout') }}" method="get">
 							<button type="submit" class="btn btn-warning btn-block float-end p-2">Checkout</button>
-					</form>
+						</form>
+						@else
+							<small><span class="text-muted">Silahan <a href="{{ route('login') }}" class="btn btn-xs  btn-link"><strong>Log in</strong></a> Untuk Melakukan Checkout</span></small> 
+						@endif
                     </div>
                 </div>
                 </div>
