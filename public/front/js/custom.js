@@ -149,3 +149,4 @@ $("#ManualCoupon").click(function(){
 $("#AutomaticCoupon").click(function(){
     $("#couponField").hide();
 });
+

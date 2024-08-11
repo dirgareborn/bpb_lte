@@ -71,6 +71,7 @@
         @include('front.partials.testimonial')
         @endif
         @include('front.partials.footer')
+		@include('front.layouts.menu-bottom')
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
@@ -87,8 +88,22 @@
     <!-- Template Javascript -->
      <script src="{{ url('front/js/main.js') }}"></script>
      <script src="{{ url('front/js/custom.js') }}"></script>
+     <script src="https://unpkg.com/feather-icons@4.29.2/dist/feather.min.js"></script>
 
     @stack('scripts')
+	
+	<script>
+    var prevScrollpos = window.pageYOffset;
+    window.onscroll = function() {
+    var currentScrollPos = window.pageYOffset;
+      if (prevScrollpos > currentScrollPos) {
+        document.getElementById("navbarBottom").style.bottom = "0";
+      } else {
+        document.getElementById("navbarBottom").style.bottom = "-70px";
+      }
+      prevScrollpos = currentScrollPos;
+    }
+    </script>
 </body>
 
 </html>

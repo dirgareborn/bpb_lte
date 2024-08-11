@@ -1,3 +1,34 @@
+
+ 
+@media (max-width: 623px) {
+    html {
+        font-size: 12px;
+    }
+}
+ 
+ .navbar-bottom {
+    overflow: hidden;
+    background-color:#00B98E;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index:2;
+  }
+
+  .navbar-bottom a {
+    /* float: left; */
+    display: block;
+    color: #FFC107;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+ #navbarBottom {
+  transition: top 0.3s;
+}
+
 .dropdown:hover > .dropdown-menu, .dropend:hover > .dropdown-menu{
     display: block;
     margin-top: .125em;

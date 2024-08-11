@@ -7,13 +7,15 @@ return [
         'short_name' => 'BPB UNM',
         'start_url' => '/',
         'background_color' => '#EFFDF5',
-        'theme_color' => '#00B98E',
+        'theme_color' => '#00120E',
+		'display_override'=> ['fullscreen','minimal-ui'],
         'display' => 'standalone',
         'orientation'=> 'any',
-        'status_bar'=> '#00B98E',
+        'status_bar'=> '#0E2E50',
         'icons' => [
 		  '36x36' => [
                 'path' => '/images/icons/icon-36x36.png',
+				'sizes' => '36x36',
                 'purpose' => 'any'
             ],
             '72x72' => [
@@ -23,22 +25,27 @@ return [
             ],
             '96x96' => [
                 'path' => '/images/icons/icon-96x96.png',
+				'sizes' => '96x96',
                 'purpose' => 'any'
             ],
             '120x120' => [
                 'path' => '/images/icons/icon-120x120.png',
+				'sizes' => '120x120',
                 'purpose' => 'any'
             ],
             '144x144' => [
                 'path' => '/images/icons/icon-144x144.png',
+				'sizes' => '144x144',
                 'purpose' => 'any'
             ],
             '152x152' => [
                 'path' => '/images/icons/icon-152x152.png',
+				'sizes' => '152x152',
                 'purpose' => 'any'
             ],
             '192x192' => [
                 'path' => '/images/icons/icon-192x192.png',
+				'sizes' => '192x192',
                 'purpose' => 'any'
             ],
           
@@ -62,7 +69,8 @@ return [
                 'description' => 'Website Badan Pengembangan Bisnis Univeristas Negeri Makassar',
                 'url' => '/register',
                 'icons' => [
-                    "src" => "/images/icons/icon-72x72.png",
+                    "src" => "/images/icons/icon-96x96.png",
+					'sizes' => '96x96',
                     "purpose" => "any"
                 ]
             ],
