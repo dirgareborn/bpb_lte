@@ -7,6 +7,7 @@ use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\UserController;
 use App\Models\Category;
 use App\Models\CmsPage;
+use Carbon\Carbon;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,10 @@ use Illuminate\Support\Facades\Auth;
 
  Route::get('/sitemap', function () {
     $sitemap = Sitemap::create()
-		->add(Url::create('/'))
+		->add(Url::create('/')
+		->setLastModificationDate(Carbon::yesterday())
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
+        ->setPriority(0.1))
 		->add(Url::create('/visi-misi'))
 		->add(Url::create('/struktur-organisasi'))
 		->add(Url::create('/kontak-kami'))
@@ -31,11 +35,14 @@ use Illuminate\Support\Facades\Auth;
 		->add(Url::create('/login'))
 		->add(Url::create('/tentang-kami'));
 		
-		Category::all()->each(function(Category $category) use ($sitemap){
-			$sitemap->add(Url::create('/kategori/{$category->url}'));
+		$cats = Category::all()->each(function(Category $category) use ($sitemap){
+		$url = $category->url;
+			$sitemap->add(Url::create('/kategori/'.$url)
+			->setLastModificationDate(Carbon::yesterday())
+			->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
+			->setPriority(0.1));
 		});
 		$sitemap->writeToFile(public_path('sitemap.xml'));
-		
 		return 'susses';
 });
 
